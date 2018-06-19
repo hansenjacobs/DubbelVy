@@ -203,6 +203,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\AuditElement.cs" />
     <Compile Include="Models\AuditSection.cs" />
     <Compile Include="Models\AuditTemplate.cs" />

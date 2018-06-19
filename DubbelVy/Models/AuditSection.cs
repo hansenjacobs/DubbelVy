@@ -21,7 +21,7 @@ namespace Dubbelvy.Models
 
         public DateTime CreateDateTime { get; set; }
 
-        [Required]
-        public string CreatedBy { get; set; }
+        public Guid CreatedById { get; set; }
+        public ApplicationUser CreatedBy { get; set; }
     }
 }
