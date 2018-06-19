@@ -25,5 +25,7 @@ namespace Dubbelvy.Models
         public int Order { get; set; }
 
         public ICollection<AuditSection> Sections { get; set; }
+
+        public ICollection<AuditElementChoice> Choices { get; set; }
     }
 }
