@@ -31,5 +31,7 @@ namespace Dubbelvy.Models
 
         public Guid ModifiedById { get; set; }
         public ApplicationUser ModifiedBy { get; set; }
+
+        public double Score { get; set; }
     }
 }
