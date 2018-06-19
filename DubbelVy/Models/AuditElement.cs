@@ -22,8 +22,6 @@ namespace Dubbelvy.Models
         public Guid CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
-        public int Order { get; set; }
-
         public ICollection<AuditSection> Sections { get; set; }
 
         public ICollection<AuditElementChoice> Choices { get; set; }

@@ -45,9 +45,7 @@ namespace Dubbelvy.Models
         public DbSet<AuditElementChoice> AuditElementChoices { get; set; }
         public DbSet<AuditResponse> AuditResponses { get; set; }
         public DbSet<AuditSection> AuditSections { get; set; }
-        public DbSet<AuditSectionAuditElement> AuditSectionAuditElements { get; set; }
         public DbSet<AuditTemplate> AuditTemplates { get; set; }
-        public DbSet<ApplicationUser> AspNetUsers { get; set; }
 
 
         public ApplicationDbContext()

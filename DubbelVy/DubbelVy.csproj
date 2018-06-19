@@ -196,16 +196,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditElementsController.cs" />
+    <Compile Include="Controllers\AuditTemplatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806191659098_InitialSetup.cs" />
+    <Compile Include="Migrations\201806191659098_InitialSetup.Designer.cs">
+      <DependentUpon>201806191659098_InitialSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\AuditElement.cs" />
     <Compile Include="Models\AuditElementChoice.cs" />
+    <Compile Include="Models\AuditElementViewModels.cs" />
     <Compile Include="Models\AuditResponse.cs" />
     <Compile Include="Models\AuditSection.cs" />
     <Compile Include="Models\AuditSectionAuditElement.cs" />
@@ -274,9 +281,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\AuditElements\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AuditTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -290,6 +299,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806191659098_InitialSetup.resx">
+      <DependentUpon>201806191659098_InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
