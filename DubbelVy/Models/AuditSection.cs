@@ -25,5 +25,7 @@ namespace Dubbelvy.Models
         public ApplicationUser CreatedBy { get; set; }
 
         public int Order { get; set; }
+
+        public ICollection<AuditElement> Elements { get; set; }
     }
 }

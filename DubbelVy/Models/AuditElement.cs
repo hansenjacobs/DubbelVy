@@ -17,14 +17,13 @@ namespace Dubbelvy.Models
         [Required]
         public string Text { get; set; }
 
-        public int AuditSectionId { get; set; }
-        public AuditSection AuditSection { get; set; }
-
         public DateTime CreateDateTime { get; set; }
 
         public Guid CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
         public int Order { get; set; }
+
+        public ICollection<AuditSection> Sections { get; set; }
     }
 }
