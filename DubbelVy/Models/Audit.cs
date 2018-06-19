@@ -33,5 +33,8 @@ namespace Dubbelvy.Models
         public ApplicationUser ModifiedBy { get; set; }
 
         public double Score { get; set; }
+
+        [StringLength(500)]
+        public string Comment { get; set; }
     }
 }
