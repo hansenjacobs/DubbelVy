@@ -12,6 +12,9 @@ namespace Dubbelvy.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public int AuditTemplateId { get; set; }
+        public AuditTemplate AuditTemplate { get; set; }
+
         public Guid AuditeeId { get; set; }
         public ApplicationUser Auditee { get; set; }
 
