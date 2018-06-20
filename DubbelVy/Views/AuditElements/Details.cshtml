@@ -1,0 +1,72 @@
+﻿@model AuditElement
+@{
+    ViewBag.Title = "Audit Element Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(m => m.Id)</dt>
+    <dd>@Model.Id</dd>
+    <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
+    <dd>@Model.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+    <dt>@Html.DisplayNameFor(m => m.CreatedBy)</dt>
+    <dd>
+        @Model.CreatedBy.NameFirstMiddleLast
+        @Model.CreatedBy.Email
+    </dd>
+    <hr />
+    <dt>@Html.DisplayNameFor(m => m.Topic)</dt>
+    <dd>@Model.Topic</dd>
+    <dt>@Html.DisplayNameFor(m => m.Text)</dt>
+    <dd>@Model.Text</dd>
+    <dt>@Html.DisplayNameFor(m => m.Choices)</dt>
+    <dd>
+            <table class="table table-condensed table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Order</th>
+                        <th>Text</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var choice in Model.Choices.OrderBy(c => c.Order))
+                    {
+                        <tr>
+                            <td>@choice.Id</td>
+                            <td>@choice.Order</td>
+                            <td>@choice.Text</td>
+                            <td>@choice.Score.ToString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
+    <dt>@Html.DisplayNameFor(m => m.Sections)</dt>
+    <dd>
+        <table class="table table-condensed table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Audit Template</th>
+                    <th>Description</th>
+                    <th>Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.Sections)
+                {
+                    <tr>
+                        <td>@(s.Section.Id)</td>
+                        <td>@(s.Section.AuditTemplate.Title + " V" + s.Section.AuditTemplate.Version)</td>
+                        <td>@(s.Section.Description)</td>
+                        <td>@(s.Section.WeightDisplay)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </dd>
+</dl>

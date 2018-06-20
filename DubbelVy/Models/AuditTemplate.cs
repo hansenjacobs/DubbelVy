@@ -22,7 +22,7 @@ namespace Dubbelvy.Models
 
         public DateTime CreateDateTime { get; set; }
 
-        public Guid CreatedById { get; set; }
+        public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
         public ICollection<AuditSection> Sections { get; set; }

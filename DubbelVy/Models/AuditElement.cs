@@ -8,6 +8,7 @@ namespace Dubbelvy.Models
 {
     public class AuditElement
     {
+        [Display(Name = "Element ID")]
         public int Id { get; set; }
 
         [Required]
@@ -17,13 +18,18 @@ namespace Dubbelvy.Models
         [Required]
         public string Text { get; set; }
 
+        [Display(Name = "Created on")]
         public DateTime CreateDateTime { get; set; }
 
-        public Guid CreatedById { get; set; }
+        [Display(Name = "Created by")]
+        public string CreatedById { get; set; }
+        [Display(Name = "Created by")]
         public ApplicationUser CreatedBy { get; set; }
 
-        public ICollection<AuditSection> Sections { get; set; }
+        [Display(Name = "Audit Sections")]
+        public ICollection<AuditSectionAuditElement> Sections { get; set; }
 
+        [Display(Name = "Audit Choices")]
         public ICollection<AuditElementChoice> Choices { get; set; }
     }
 }

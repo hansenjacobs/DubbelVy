@@ -28,6 +28,54 @@ namespace Dubbelvy.Models
         public DateTime ServiceDateTime { get; set; }
         public DateTime? TerminationDateTime { get; set; }
 
+        public string NameFirstMiddleLast
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+
+                return result.Trim();
+            }
+        }
+
+        public string NameFirstMLast
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+
+                return result.Trim();
+            }
+        }
+
+        public string NameLastFirstM
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + ", " : "";
+                result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
+
+                return result.Trim();
+            }
+        }
+
+        public string NameLastFirstMiddle
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + ", " : "";
+                result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
+
+                return result.Trim();
+            }
+        }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -44,6 +92,7 @@ namespace Dubbelvy.Models
         public DbSet<AuditElement> AuditElements { get; set; }
         public DbSet<AuditElementChoice> AuditElementChoices { get; set; }
         public DbSet<AuditResponse> AuditResponses { get; set; }
+        public DbSet<AuditSectionAuditElement> AuditSectionAuditElements { get; set; }
         public DbSet<AuditSection> AuditSections { get; set; }
         public DbSet<AuditTemplate> AuditTemplates { get; set; }
 

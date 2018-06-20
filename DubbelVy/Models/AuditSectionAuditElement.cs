@@ -19,6 +19,6 @@ namespace Dubbelvy.Models
         public int ElementId { get; set; }
         public AuditElement Element { get; set; }
 
-        public int ResponseOrder { get; set; }
+        public int Order { get; set; }
     }
 }

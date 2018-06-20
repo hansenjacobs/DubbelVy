@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using Dubbelvy.Models;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Dubbelvy.Controllers
 {
@@ -38,7 +41,7 @@ namespace Dubbelvy.Controllers
                     Topic = model.Topic,
                     Text = model.Text,
                     CreateDateTime = DateTime.Now,
-                    CreatedById = new Guid(User.Identity.GetUserId())
+                    CreatedById = User.Identity.GetUserId()
                 };
 
                 _context.AuditElements.Add(auditElement);
@@ -50,5 +53,15 @@ namespace Dubbelvy.Controllers
             return View(model);
         }
 
+        public ActionResult Details(int id)
+        {
+            var auditElement = _context.AuditElements
+                .Include(a => a.Sections.Select(s => s.Section.AuditTemplate))
+                .Include(a => a.Choices)
+                .Include(a => a.CreatedBy)
+                .Single(a => a.Id == id);
+
+            return View(auditElement);
+        }
     }
 }

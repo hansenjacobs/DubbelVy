@@ -203,9 +203,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201806191659098_InitialSetup.cs" />
-    <Compile Include="Migrations\201806191659098_InitialSetup.Designer.cs">
-      <DependentUpon>201806191659098_InitialSetup.cs</DependentUpon>
+    <Compile Include="Migrations\201806201649376_InitialSetup.cs" />
+    <Compile Include="Migrations\201806201649376_InitialSetup.Designer.cs">
+      <DependentUpon>201806201649376_InitialSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806201713175_AuditSectionWeightToDouble.cs" />
+    <Compile Include="Migrations\201806201713175_AuditSectionWeightToDouble.Designer.cs">
+      <DependentUpon>201806201713175_AuditSectionWeightToDouble.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -282,6 +286,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\AuditElements\Create.cshtml" />
+    <Content Include="Views\AuditElements\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,8 +306,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806191659098_InitialSetup.resx">
-      <DependentUpon>201806191659098_InitialSetup.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806201649376_InitialSetup.resx">
+      <DependentUpon>201806201649376_InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806201713175_AuditSectionWeightToDouble.resx">
+      <DependentUpon>201806201713175_AuditSectionWeightToDouble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

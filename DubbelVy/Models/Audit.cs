@@ -15,13 +15,13 @@ namespace Dubbelvy.Models
         public int AuditTemplateId { get; set; }
         public AuditTemplate AuditTemplate { get; set; }
 
-        public Guid AuditeeId { get; set; }
+        public string AuditeeId { get; set; }
         public ApplicationUser Auditee { get; set; }
 
-        public Guid SupervisorId { get; set; }
+        public string SupervisorId { get; set; }
         public ApplicationUser Supervisor { get; set; }
 
-        public Guid AuditorId { get; set; }
+        public string AuditorId { get; set; }
         public ApplicationUser Auditor { get; set; }
 
         public DateTime WorkDateTime { get; set; }
@@ -32,7 +32,7 @@ namespace Dubbelvy.Models
 
         public DateTime ModifiedDateTime { get; set; }
 
-        public Guid ModifiedById { get; set; }
+        public string ModifiedById { get; set; }
         public ApplicationUser ModifiedBy { get; set; }
 
         public double Score { get; set; }
