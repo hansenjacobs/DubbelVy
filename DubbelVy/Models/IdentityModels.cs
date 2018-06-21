@@ -33,8 +33,8 @@ namespace Dubbelvy.Models
             get
             {
                 var result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
 
                 return result.Trim();
             }
@@ -45,8 +45,38 @@ namespace Dubbelvy.Models
             get
             {
                 var result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+
+                return result.Trim();
+            }
+        }
+
+        public string NameFirstLast
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + " " : "";
+
+                return result.Trim();
+            }
+        }
+
+        public string NameFLUser
+        {
+            get
+            {
+                return NameFirstLast + $" <{UserName}>";
+            }
+        }
+
+        public string NameLastFirst
+        {
+            get
+            {
+                var result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + ", " : "";
+                result += !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
 
                 return result.Trim();
             }
@@ -57,8 +87,8 @@ namespace Dubbelvy.Models
             get
             {
                 var result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + ", " : "";
-                result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle.Substring(0, 1) + " " : "";
 
                 return result.Trim();
             }
@@ -69,10 +99,18 @@ namespace Dubbelvy.Models
             get
             {
                 var result = !(string.IsNullOrWhiteSpace(NameLast)) ? NameLast + ", " : "";
-                result = !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
-                result = !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameFirst)) ? NameFirst + " " : "";
+                result += !(string.IsNullOrWhiteSpace(NameMiddle)) ? NameMiddle + " " : "";
 
                 return result.Trim();
+            }
+        }
+
+        public string NameLFUser
+        {
+            get
+            {
+                return NameLastFirst + $" <{UserName}>";
             }
         }
 

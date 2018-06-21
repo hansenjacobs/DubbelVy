@@ -12,10 +12,7 @@
     <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
     <dd>@Model.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
     <dt>@Html.DisplayNameFor(m => m.CreatedBy)</dt>
-    <dd>
-        @Model.CreatedBy.NameFirstMiddleLast
-        @Model.CreatedBy.Email
-    </dd>
+    <dd>@Model.CreatedBy.NameFLUser</dd>
     <hr />
     <dt>@Html.DisplayNameFor(m => m.Topic)</dt>
     <dd>@Model.Topic</dd>
