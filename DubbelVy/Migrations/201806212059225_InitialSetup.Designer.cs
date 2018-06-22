@@ -7,13 +7,13 @@ namespace Dubbelvy.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AuditSectionWeightToDouble : IMigrationMetadata
+    public sealed partial class InitialSetup : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AuditSectionWeightToDouble));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialSetup));
         
         string IMigrationMetadata.Id
         {
-            get { return "201806201713175_AuditSectionWeightToDouble"; }
+            get { return "201806212059225_InitialSetup"; }
         }
         
         string IMigrationMetadata.Source

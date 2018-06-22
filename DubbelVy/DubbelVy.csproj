@@ -46,10 +46,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -193,35 +200,32 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AuditElementChoicesController.cs" />
-    <Compile Include="Controllers\AuditElementsController.cs" />
-    <Compile Include="Controllers\AuditTemplatesController.cs" />
+    <Compile Include="Controllers\AuditTemplateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201806201649376_InitialSetup.cs" />
-    <Compile Include="Migrations\201806201649376_InitialSetup.Designer.cs">
-      <DependentUpon>201806201649376_InitialSetup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806201713175_AuditSectionWeightToDouble.cs" />
-    <Compile Include="Migrations\201806201713175_AuditSectionWeightToDouble.Designer.cs">
-      <DependentUpon>201806201713175_AuditSectionWeightToDouble.cs</DependentUpon>
+    <Compile Include="Migrations\201806212059225_InitialSetup.cs" />
+    <Compile Include="Migrations\201806212059225_InitialSetup.Designer.cs">
+      <DependentUpon>201806212059225_InitialSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\AuditElement.cs" />
     <Compile Include="Models\AuditElementChoice.cs" />
+    <Compile Include="Models\AuditElementChoiceViewModels.cs" />
     <Compile Include="Models\AuditElementViewModels.cs" />
     <Compile Include="Models\AuditResponse.cs" />
     <Compile Include="Models\AuditSection.cs" />
-    <Compile Include="Models\AuditSectionAuditElement.cs" />
+    <Compile Include="Models\AuditSectionViewModels.cs" />
     <Compile Include="Models\AuditTemplate.cs" />
+    <Compile Include="Models\AuditTemplateViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -522,16 +526,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\AuditElements\Create.cshtml" />
-    <Content Include="Views\AuditElements\Details.cshtml" />
-    <Content Include="Views\AuditElements\Index.cshtml" />
-    <Content Include="Views\AuditElements\Edit.cshtml" />
-    <Content Include="Views\AuditElements\_CreateAuditElementChoice.cshtml" />
+    <Content Include="Views\AuditTemplate\AuditTemplateForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AuditSectionViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AuditElementChoices\" />
-    <Folder Include="Views\AuditTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -547,11 +546,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806201649376_InitialSetup.resx">
-      <DependentUpon>201806201649376_InitialSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806201713175_AuditSectionWeightToDouble.resx">
-      <DependentUpon>201806201713175_AuditSectionWeightToDouble.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806212059225_InitialSetup.resx">
+      <DependentUpon>201806212059225_InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

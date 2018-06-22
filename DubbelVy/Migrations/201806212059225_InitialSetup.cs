@@ -30,10 +30,13 @@ namespace Dubbelvy.Migrations
                         Text = c.String(nullable: false),
                         CreateDateTime = c.DateTime(nullable: false),
                         CreatedById = c.String(maxLength: 128),
+                        SectionId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
-                .Index(t => t.CreatedById);
+                .ForeignKey("dbo.AuditSections", t => t.SectionId, cascadeDelete: true)
+                .Index(t => t.CreatedById)
+                .Index(t => t.SectionId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -103,27 +106,13 @@ namespace Dubbelvy.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.AuditSectionAuditElements",
-                c => new
-                    {
-                        SectionId = c.Int(nullable: false),
-                        ElementId = c.Int(nullable: false),
-                        Order = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.SectionId, t.ElementId })
-                .ForeignKey("dbo.AuditElements", t => t.ElementId, cascadeDelete: true)
-                .ForeignKey("dbo.AuditSections", t => t.SectionId, cascadeDelete: true)
-                .Index(t => t.SectionId)
-                .Index(t => t.ElementId);
-            
-            CreateTable(
                 "dbo.AuditSections",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Description = c.String(nullable: false),
                         AuditTemplateId = c.Int(nullable: false),
-                        Weight = c.Int(),
+                        Weight = c.Double(),
                         CreateDateTime = c.DateTime(nullable: false),
                         CreatedById = c.String(maxLength: 128),
                         Order = c.Int(nullable: false),
@@ -206,7 +195,8 @@ namespace Dubbelvy.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
+
+            Sql("INSERT INTO AspNetUsers (Id, NameFirst, NameLast, SupervisorId, ServiceDateTime, Email, EmailConfirmed, PasswordHash, SecurityStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount, UserName) VALUES ('e292f2bc-5c26-4bf2-8e4a-cb0c65f5d41e', 'Admin', 'Admin', '00000000-0000-0000-0000-000000000000', '2000-01-01', 'admin@admin.com', 0, 'AMBJIrkm8CcqcD1M6gf/+krH1bG1RJSJwbd1bE8GMWXievNx6N2WJce2EqXux7S5lA==', 'ecb708d2-03af-4a6f-9f67-86ca5d3f1a82', 0, 0, 1, 0, 'admin')");
         }
         
         public override void Down()
@@ -220,11 +210,10 @@ namespace Dubbelvy.Migrations
             DropForeignKey("dbo.Audits", "AuditTemplateId", "dbo.AuditTemplates");
             DropForeignKey("dbo.Audits", "AuditorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Audits", "AuditeeId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AuditSectionAuditElements", "SectionId", "dbo.AuditSections");
+            DropForeignKey("dbo.AuditElements", "SectionId", "dbo.AuditSections");
             DropForeignKey("dbo.AuditSections", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.AuditSections", "AuditTemplateId", "dbo.AuditTemplates");
             DropForeignKey("dbo.AuditTemplates", "CreatedById", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AuditSectionAuditElements", "ElementId", "dbo.AuditElements");
             DropForeignKey("dbo.AuditElements", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "Supervisor_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -243,14 +232,13 @@ namespace Dubbelvy.Migrations
             DropIndex("dbo.AuditTemplates", new[] { "CreatedById" });
             DropIndex("dbo.AuditSections", new[] { "CreatedById" });
             DropIndex("dbo.AuditSections", new[] { "AuditTemplateId" });
-            DropIndex("dbo.AuditSectionAuditElements", new[] { "ElementId" });
-            DropIndex("dbo.AuditSectionAuditElements", new[] { "SectionId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "Supervisor_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AuditElements", new[] { "SectionId" });
             DropIndex("dbo.AuditElements", new[] { "CreatedById" });
             DropIndex("dbo.AuditElementChoices", new[] { "ElementId" });
             DropTable("dbo.AspNetRoles");
@@ -258,7 +246,6 @@ namespace Dubbelvy.Migrations
             DropTable("dbo.AuditResponses");
             DropTable("dbo.AuditTemplates");
             DropTable("dbo.AuditSections");
-            DropTable("dbo.AuditSectionAuditElements");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

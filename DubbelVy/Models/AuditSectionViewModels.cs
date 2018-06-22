@@ -6,14 +6,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dubbelvy.Models
 {
-    public class AuditSection
+    public class AuditSectionViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public string Description { get; set; }
 
 
+        [Required]
+        [Display(Name = "Audit Template")]
         public int AuditTemplateId { get; set; }
         public AuditTemplate AuditTemplate { get; set; }
 
@@ -23,13 +25,19 @@ namespace Dubbelvy.Models
             get { return Weight != null ? (Weight * 100).ToString() + "%" : "Auto Fail"; }
         }
 
+        [Display(Name = "Created")]
         public DateTime CreateDateTime { get; set; }
 
         public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
+        [Display(Name = "Display Order")]
         public int Order { get; set; }
 
-        public ICollection<AuditElement> Elements { get; set; }
+        public ICollection<AuditElementViewModel> Elements { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public int Index { get; set; }
     }
 }

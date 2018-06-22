@@ -26,8 +26,9 @@ namespace Dubbelvy.Models
         [Display(Name = "Created by")]
         public ApplicationUser CreatedBy { get; set; }
 
-        [Display(Name = "Audit Sections")]
-        public ICollection<AuditSectionAuditElement> Sections { get; set; }
+        [Display(Name = "Audit Section")]
+        public int SectionId { get; set; }
+        public AuditSection Section { get; set; }
 
         [Display(Name = "Audit Choices")]
         public ICollection<AuditElementChoice> Choices { get; set; }
