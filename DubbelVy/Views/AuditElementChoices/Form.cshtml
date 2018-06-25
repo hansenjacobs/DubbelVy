@@ -1,0 +1,45 @@
+﻿@model AuditElementChoiceViewModel
+@{
+    /**/
+
+    ViewBag.Title = Model.Id != null ? "Edit Audit Element Choice" : "New Audit Element Choice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p style="font-style: italic">For @Model.Element.Section.AuditTemplate.Title V@(Model.Element.Section.AuditTemplate.Version) - @Model.Element.Section.Description</p>
+<p style="font-style: italic">@Model.Element.Topic: @Model.Element.Text</p>
+<hr />
+@using (Html.BeginForm(Model.Id != null ? "Edit" : "Add", "AuditElementChoices", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Text, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Score, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Score, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Order, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Order, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="hidden">
+        @Html.HiddenFor(m => m.ElementId)
+        @Html.HiddenFor(m => m.Id)
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value=@(Model.Id != null ? "Save" : "Create") />
+        </div>
+    </div>
+}
+

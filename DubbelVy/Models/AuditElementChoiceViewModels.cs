@@ -12,14 +12,17 @@ namespace Dubbelvy.Models
 
         [Display(Name = "Audit Element")]
         public int ElementId { get; set; }
-        public AuditElement Element { get; set; }
+        public AuditElementViewModel Element { get; set; }
 
+        [Required]
         [Display(Name = "Text")]
         public string Text { get; set; }
 
+        [Required]
         [Display(Name = "Point Value")]
         public double Score { get; set; }
 
+        [Required]
         [Display(Name = "Display Order")]
         public int Order { get; set; }
     }

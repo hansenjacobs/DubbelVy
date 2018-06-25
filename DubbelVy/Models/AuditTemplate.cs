@@ -33,5 +33,20 @@ namespace Dubbelvy.Models
         public ApplicationUser ModifiedBy { get; set; }
 
         public ICollection<AuditSection> Sections { get; set; }
+
+        public int GetCompletedAuditCount(ApplicationDbContext _context)
+        {
+            return _context.Audits.Count(a => a.AuditTemplateId == Id);
+        }
+
+        public void UpdateFromViewModel(AuditTemplateViewModel viewModel)
+        {
+            Title = viewModel.Title;
+            Version = viewModel.Version;
+            DeployDateTime = viewModel.DeployDateTime;
+            DepreciateDateTime = viewModel.DepreciateDateTime;
+            ModifiedById = viewModel.ModifiedById;
+            ModifiedDateTime = viewModel.ModifiedDateTime != null ? viewModel.ModifiedDateTime.Value : DateTime.Now;
+        }
     }
 }

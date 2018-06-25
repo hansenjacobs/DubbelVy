@@ -22,32 +22,46 @@ namespace Dubbelvy.Controllers
         public ActionResult Add(int id)
         {
             var auditTemplateId = id;
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == auditTemplateId);
 
-            var viewModel = new AuditSectionViewModel
+            if(auditTemplate.GetCompletedAuditCount(_context) == 0)
             {
-                AuditTemplate = new AuditTemplateViewModel(),
-                AuditTemplateId = auditTemplateId
-            };
+                var viewModel = new AuditSectionViewModel
+                {
+                    AuditTemplate = new AuditTemplateViewModel(),
+                    AuditTemplateId = auditTemplateId
+                };
 
-            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == auditTemplateId), viewModel.AuditTemplate);
+                AutoMapper.Mapper.Map(auditTemplate, viewModel.AuditTemplate);
 
-            return View("Form",viewModel);
+                return View("Form", viewModel);
+            }
+
+            ViewBag.Message = "Unable to add section to aduit template.  Audits have already been completed using this audit template.";
+            return RedirectToAction("Details", "AuditTemplates", new { id = auditTemplateId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(AuditSectionViewModel model)
         {
-            model.CreateDateTime = DateTime.Now;
-            model.ModifiedDateTime = DateTime.Now;
-            model.CreatedById = User.Identity.GetUserId();
-            model.ModifiedById = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();
+            var submitDateTime = DateTime.Now;
+            model.CreateDateTime = submitDateTime;
+            model.ModifiedDateTime = submitDateTime;
+            model.CreatedById = userId;
+            model.ModifiedById = userId;
+
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId);
 
             if (ModelState.IsValid)
             {
                 var newAuditSection = new AuditSection();
 
                 AutoMapper.Mapper.Map(model, newAuditSection);
+                auditTemplate.ModifiedById = userId;
+                auditTemplate.ModifiedDateTime = submitDateTime;
+
                 _context.AuditSections.Add(newAuditSection);
                 _context.SaveChanges();
 
@@ -55,18 +69,34 @@ namespace Dubbelvy.Controllers
             }
 
             model.AuditTemplate = new AuditTemplateViewModel();
-            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId), model.AuditTemplate);
+            AutoMapper.Mapper.Map(auditTemplate, model.AuditTemplate);
             return View("Form", model);
         }
 
         public ActionResult Delete(int id)
         {
+            var userId = User.Identity.GetUserId();
+            var submitDateTime = DateTime.Now;
             var auditSection = _context.AuditSections.Single(a => a.Id == id);
-            var auditTemplateId = auditSection.AuditTemplateId;
-            _context.AuditSections.Remove(auditSection);
-            _context.SaveChanges();
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == auditSection.AuditTemplateId);
 
-            return RedirectToAction("Details", "AuditTemplates", new { id = auditTemplateId });
+            if(auditTemplate.GetCompletedAuditCount(_context) == 0)
+            {
+                _context.AuditSections.Remove(auditSection);
+                auditTemplate.ModifiedById = userId;
+                auditTemplate.ModifiedDateTime = submitDateTime;
+
+                _context.SaveChanges();
+
+                ViewBag.Message = "Audit section deleted successfully.";
+
+            }
+            else
+            {
+                ViewBag.Message = "Unable to delete audit section.  Audits have been completed using the audit template that the section belongs to.";
+            }
+
+            return RedirectToAction("Details", "AuditTemplates", new { id = auditTemplate.Id });
         }
 
         public ActionResult Details(int id)
@@ -90,11 +120,17 @@ namespace Dubbelvy.Controllers
                 .Include(a => a.AuditTemplate)
                 .Single(a => a.Id == id);
 
-            var viewModel = new AuditSectionViewModel();
+            if(auditSection.AuditTemplate.GetCompletedAuditCount(_context) == 0)
+            {
+                var viewModel = new AuditSectionViewModel();
 
-            AutoMapper.Mapper.Map(auditSection, viewModel);
+                AutoMapper.Mapper.Map(auditSection, viewModel);
 
-            return View("Form", viewModel);
+                return View("Form", viewModel);
+            }
+
+            ViewBag.Message = "Unable to edit audit section. Audits have been completed using the audit template that the section belongs to.";
+            return RedirectToAction("Details", "AuditTemplates", new { id = auditSection.AuditTemplateId });
         }
 
         [HttpPost]
@@ -103,22 +139,28 @@ namespace Dubbelvy.Controllers
         {
             var auditSection = _context.AuditSections.Single(a => a.Id == model.Id);
 
+            var userId = User.Identity.GetUserId();
+            var submitDateTime = DateTime.Now;
             model.CreateDateTime = auditSection.CreateDateTime;
-            model.ModifiedDateTime = DateTime.Now;
+            model.ModifiedDateTime = submitDateTime;
             model.CreatedById = auditSection.CreatedById;
-            model.ModifiedById = User.Identity.GetUserId();
+            model.ModifiedById = userId;
+
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId);
 
             if (ModelState.IsValid)
             {
-                AutoMapper.Mapper.Map(model, auditSection);
+                auditSection.UpdateFromViewModel(model);
 
+                auditTemplate.ModifiedById = userId;
+                auditTemplate.ModifiedDateTime = submitDateTime;
                 _context.SaveChanges();
 
                 return RedirectToAction("Details", "AuditTemplates", new { id = auditSection.AuditTemplateId });
             }
 
             model.AuditTemplate = new AuditTemplateViewModel();
-            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId), model.AuditTemplate);
+            AutoMapper.Mapper.Map(auditTemplate, model.AuditTemplate);
             return View("Form", model);
         }
     }

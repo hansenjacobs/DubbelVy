@@ -22,5 +22,12 @@ namespace Dubbelvy.Models
 
         [Display(Name ="Display Order")]
         public int Order { get; set; }
+
+        public void UpdateFromViewModel (AuditElementChoiceViewModel viewModel)
+        {
+            Text = viewModel.Text;
+            Score = viewModel.Score;
+            Order = viewModel.Order;
+        }
     }
 }

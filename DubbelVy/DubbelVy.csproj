@@ -207,7 +207,7 @@
     <Compile Include="Controllers\AuditElementsController.cs" />
     <Compile Include="Controllers\AuditSectionsController.cs" />
     <Compile Include="Controllers\AuditTemplatesController.cs" />
-    <Compile Include="Controllers\ElementChoicesController.cs" />
+    <Compile Include="Controllers\AuditElementChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201806221637512_AddedModifiedFields.cs" />
     <Compile Include="Migrations\201806221637512_AddedModifiedFields.Designer.cs">
       <DependentUpon>201806221637512_AddedModifiedFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806251650176_AddOrderToAuditElement.cs" />
+    <Compile Include="Migrations\201806251650176_AddOrderToAuditElement.Designer.cs">
+      <DependentUpon>201806251650176_AddOrderToAuditElement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -538,12 +542,12 @@
     <Content Include="Views\AuditSections\Details.cshtml" />
     <Content Include="Views\AuditTemplates\Form.cshtml" />
     <Content Include="Views\AuditTemplates\Index.cshtml" />
+    <Content Include="Views\AuditElements\Form.cshtml" />
+    <Content Include="Views\AuditElements\Details.cshtml" />
+    <Content Include="Views\AuditElementChoices\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AuditElements\" />
-    <Folder Include="Views\AuditElement\" />
-    <Folder Include="Views\ElementChoices\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -564,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806221637512_AddedModifiedFields.resx">
       <DependentUpon>201806221637512_AddedModifiedFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806251650176_AddOrderToAuditElement.resx">
+      <DependentUpon>201806251650176_AddOrderToAuditElement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

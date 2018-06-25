@@ -38,5 +38,14 @@ namespace Dubbelvy.Models
         public int Order { get; set; }
 
         public ICollection<AuditElement> Elements { get; set; }
+
+        public void UpdateFromViewModel (AuditSectionViewModel viewModel)
+        {
+            Description = viewModel.Description;
+            Weight = viewModel.Weight;
+            ModifiedById = viewModel.ModifiedById;
+            ModifiedDateTime = viewModel.ModifiedDateTime != null ? viewModel.ModifiedDateTime.Value : DateTime.Now;
+            Order = viewModel.Order;
+        }
     }
 }

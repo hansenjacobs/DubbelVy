@@ -17,17 +17,20 @@ namespace Dubbelvy.Models
         [Required]
         public string Text { get; set; }
 
+        [Required]
+        [Display(Name = "Display Order")]
+        public int Order { get; set; }
+
         [Display(Name = "Created")]
-        public DateTime CreateDateTime { get; set; }
+        public DateTime? CreateDateTime { get; set; }
 
         [Display(Name = "Created by")]
         public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
         [Display(Name = "Modified")]
-        public DateTime ModifiedDateTime { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
 
-        [Required]
         [Display(Name = "Modified by")]
         public string ModifiedById { get; set; }
         public ApplicationUser ModifiedBy { get; set; }

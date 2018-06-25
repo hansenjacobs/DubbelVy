@@ -47,9 +47,9 @@
                     <td style="font-style:italic">Not Deployed</td>
                     <td>-</td>
                 }
-                <td>@template.CreateDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@template.CreateDateTime.Value.ToString("MM/dd/yyyy")</td>
                 <td>@template.CreatedBy.NameFLUser</td>
-                <td>@template.ModifiedDateTime.ToString("MM/dd/yyy")</td>
+                <td>@template.ModifiedDateTime.Value.ToString("MM/dd/yyy")</td>
                 <td>@template.ModifiedBy.NameFLUser</td>
                 <td>
                     @if (template.AuditsCompleted == 0)

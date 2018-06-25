@@ -13,6 +13,7 @@ namespace Dubbelvy.Models
         [Required]
         public string Description { get; set; }
 
+        [Required]
         [Display(Name = "Audit Template")]
         public int AuditTemplateId { get; set; }
         public AuditTemplateViewModel AuditTemplate { get; set; }
@@ -25,14 +26,14 @@ namespace Dubbelvy.Models
         }
 
         [Display(Name = "Created")]
-        public DateTime CreateDateTime { get; set; }
+        public DateTime? CreateDateTime { get; set; }
 
         [Display(Name = "Created by")]
         public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
         [Display(Name = "Modified")]
-        public DateTime ModifiedDateTime { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
 
         [Display(Name = "Modified by")]
         public string ModifiedById { get; set; }

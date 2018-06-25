@@ -23,14 +23,14 @@
     <div class="col-md-6">
         <dl class="dl-horizontal">
             <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
-            <dd>@Model.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dd>@Model.CreateDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
             <dt>@Html.DisplayNameFor(m => m.CreatedById)</dt>
             @if(Model.CreatedBy != null)
             {
                 <dd>@Model.CreatedBy.NameFLUser</dd>
             }
             <dt>@Html.DisplayNameFor(m => m.ModifiedDateTime)</dt>
-            <dd>@Model.ModifiedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dd>@Model.ModifiedDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
             <dt>@Html.DisplayNameFor(m => m.ModifiedById)</dt>
             @if(Model.ModifiedBy != null)
             {
@@ -39,27 +39,24 @@
         </dl>
     </div>
 </div>
-<h4 style="display: inline">Sections</h4>
-    <span style="margin-left: 10px">@Html.ActionLink("Add", "Add","AuditSections", new { id = Model.Id }, null)</span>
+    <span>@Html.ActionLink("Add Section", "Add","AuditSections", new { id = Model.Id }, null)</span>
 <hr />
 @foreach(var auditSection in Model.Sections)
 {
     <div id="section-@auditSection.Id" class="audit-section row">
         <div class="col-md-offset-1 col-md-10">
             <h4 style="display:inline">@Html.ActionLink(auditSection.Description, "Details", "AuditSections", new { id = auditSection.Id }, null)</h4>
-            <span style="margin-left: 10px">@Html.ActionLink("Edit", "Edit", "AuditSections", new { id = auditSection.Id }, null) | @Html.ActionLink("Delete", "Delete", "AuditSections", new { id = auditSection.Id }, null)</span>
+            <span style="margin-left: 10px">@Html.ActionLink("Edit", "Edit", "AuditSections", new { id = auditSection.Id }, null) | @Html.ActionLink("Delete", "Delete", "AuditSections", new { id = auditSection.Id }, null) | @Html.ActionLink("Add Element", "Add", "AuditElements", new { id = auditSection.Id }, null)</span>
             <p><b>Weight: </b>@auditSection.WeightDisplay</p>
-            <h4 style="display:inline" class="col-md-offset-1">Elements</h4>
-                <span>@Html.ActionLink("Add", "Add", "AuditElements", null, null)</span>
             <hr />
             @foreach (var sectionElement in auditSection.Elements)
             {
                 <div id="element-@sectionElement.Id" class="section-element row">
                     <div class="col-md-offset-1 col-md-8">
-                        <h6>@Html.ActionLink(sectionElement.Text, "Details", "AuditElements", new { id = sectionElement.Id }, null)</h6><span>@Html.ActionLink("Edit", "Edit", "AuditElements", new { id = sectionElement.Id }, null) | @Html.ActionLink("Delete", "Delete", "AuditElements", new { id = sectionElement.Id }, null)</span>
-                        <p>@sectionElement.Topic</p>
+                        <h4 style="display:inline">@Html.ActionLink(sectionElement.Topic, "Details", "AuditElements", new { id = sectionElement.Id }, null)</h4><span style="margin-left:10px">@Html.ActionLink("Edit", "Edit", "AuditElements", new { id = sectionElement.Id }, null) | @Html.ActionLink("Delete", "Delete", "AuditElements", new { id = sectionElement.Id }, null) | @Html.ActionLink("Add Choice", "Add", "AuditElementChoices", new { id = sectionElement.Id }, null)</span>
+                        <p>@sectionElement.Text</p>
                         <hr />
-                        <table>
+                        <table class="table table-condensed table-responsive table-hover">
                             <thead>
                                 <tr>
                                     <th>Choice</th>
@@ -71,7 +68,7 @@
                                 @foreach (var elementChoice in sectionElement.Choices)
                                 {
                                     <tr id="choice-@elementChoice.Id">
-                                        <td>@Html.ActionLink(elementChoice.Text, "Details", "AuditElementChoices", new { id = elementChoice.Id }, null)</td>
+                                        <td>@elementChoice.Text</td>
                                         <td>@elementChoice.Score</td>
                                         <td>@Html.ActionLink("Edit", "Edit", "AuditElementChoices", new { id = elementChoice.Id }, null) | @Html.ActionLink("Delete", "Delete", "AuditElementChoices", new { id = elementChoice.Id }, null)</td>
                                     </tr>

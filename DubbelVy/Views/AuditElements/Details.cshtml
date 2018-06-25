@@ -1,0 +1,40 @@
+﻿@model AuditElementViewModel
+@{
+    ViewBag.Title = "Audit Element Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.Topic)</dt>
+            <dd>@Model.Topic</dd>
+            <dt>@Html.DisplayNameFor(m => m.Text)</dt>
+            <dd>@Model.Text</dd>
+            <dt>@Html.DisplayNameFor(m => m.Order)</dt>
+            <dd>@Model.Order</dd>
+            <dt>@Html.DisplayNameFor(m => m.Section.AuditTemplateId)</dt>
+            <dd>
+                @Html.ActionLink($"{Model.Section.AuditTemplate.Title} V{Model.Section.AuditTemplate.Version}", "Details", "AuditTemplates", new { id = Model.Section.AuditTemplateId }, null)
+            </dd>
+            <dt>@Html.DisplayNameFor(m => m.SectionId)</dt>
+            <dd>@Html.ActionLink(Model.Section.Description, "Details", "AuditSections", new { id = Model.SectionId }, null)</dd>
+            <dt>@Html.DisplayNameFor(m => m.Section.Weight)</dt>
+            <dd>@Model.Section.WeightDisplay</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
+            <dd>@Model.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.CreatedById)</dt>
+            <dd>@Model.CreatedBy.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedDateTime)</dt>
+            <dd>@Model.ModifiedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedById)</dt>
+            <dd>@Model.ModifiedBy.NameFLUser</dd>
+        </dl>
+    </div>
+</div>

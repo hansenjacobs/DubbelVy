@@ -18,6 +18,9 @@ namespace Dubbelvy.Models
         [Required]
         public string Text { get; set; }
 
+        [Required]
+        public int Order { get; set; }
+
         [Display(Name = "Created on")]
         public DateTime CreateDateTime { get; set; }
 
@@ -39,5 +42,14 @@ namespace Dubbelvy.Models
 
         [Display(Name = "Audit Choices")]
         public ICollection<AuditElementChoice> Choices { get; set; }
+
+        public void UpdateFromViewModel (AuditElementViewModel viewModel)
+        {
+            Topic = viewModel.Topic;
+            Text = viewModel.Text;
+            Order = viewModel.Order;
+            ModifiedById = viewModel.ModifiedById;
+            ModifiedDateTime = viewModel.ModifiedDateTime != null ? viewModel.ModifiedDateTime.Value : DateTime.Now;
+        }
     }
 }

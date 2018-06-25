@@ -190,7 +190,7 @@ namespace Dubbelvy.Controllers
 
             if (ModelState.IsValid)
             {
-                AutoMapper.Mapper.Map(model, auditTemplate);
+                auditTemplate.UpdateFromViewModel(model);
                 _context.SaveChanges();
                 return RedirectToAction("Details", new { id = auditTemplate.Id });
             }
