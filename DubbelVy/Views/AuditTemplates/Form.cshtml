@@ -1,0 +1,37 @@
+﻿@model AuditTemplateViewModel
+@{
+    /**/
+
+    ViewBag.Title = Model.Id != null ? "Edit Audit Template" : "New Audit Template";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+@using (Html.BeginForm(Model.Id != null ? "Edit" : "Add", "AUditTemplates", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Version, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Version, new { @class = "form-control" })
+            <p style="font-style:italic">Enter as a decimal. Example, for 25% enter '0.25'. For Auto-Fail, leave blank.</p>
+        </div>
+    </div>
+    <div class="hidden">
+        @Html.HiddenFor(m => m.Id)
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value=@(Model.Id != null ? "Save" : "Create") />
+        </div>
+    </div>
+}
+

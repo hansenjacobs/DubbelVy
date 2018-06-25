@@ -30,6 +30,6 @@ namespace Dubbelvy.Models
         public AuditSection Section { get; set; }
 
         [Display(Name = "Audit Choices")]
-        public ICollection<AuditElementChoiceViewModel> Choices { get; set; }
+        public List<AuditElementChoiceViewModel> Choices { get; set; }
     }
 }

@@ -13,13 +13,12 @@ namespace Dubbelvy.Models
         [Required]
         public string Description { get; set; }
 
-
-        [Required]
         [Display(Name = "Audit Template")]
         public int AuditTemplateId { get; set; }
         public AuditTemplate AuditTemplate { get; set; }
 
         public double? Weight { get; set; }
+        [Display(Name = "Weight")]
         public string WeightDisplay
         {
             get { return Weight != null ? (Weight * 100).ToString() + "%" : "Auto Fail"; }
@@ -28,16 +27,20 @@ namespace Dubbelvy.Models
         [Display(Name = "Created")]
         public DateTime CreateDateTime { get; set; }
 
+        [Display(Name = "Created by")]
         public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
+
+        [Display(Name = "Modified")]
+        public DateTime ModifiedDateTime { get; set; }
+
+        [Display(Name = "Modified by")]
+        public string ModifiedById { get; set; }
+        public ApplicationUser ModifiedBy { get; set; }
 
         [Display(Name = "Display Order")]
         public int Order { get; set; }
 
-        public ICollection<AuditElementViewModel> Elements { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public int Index { get; set; }
+        public List<AuditElementViewModel> Elements { get; set; }
     }
 }

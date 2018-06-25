@@ -1,0 +1,45 @@
+﻿@model AuditSectionViewModel
+@{
+    /**/
+
+    ViewBag.Title = Model.Id != null ? "Edit Audit Section" : "New Audit Section";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p style="font-style: italic">For @Model.AuditTemplate.Title V@(Model.AuditTemplate.Version)</p>
+<hr />
+@using (Html.BeginForm(Model.Id != null ? "Edit" : "Add", "AuditSections", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Weight, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Weight, new { @class = "form-control" })
+            <p style="font-style:italic">Enter as a decimal. Example, for 25% enter '0.25'. For Auto-Fail, leave blank.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Order, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Order, new { @class = "form-control", @style = "display: inline" })
+        </div>
+    </div>
+    <div class="hidden">
+        @Html.HiddenFor(m => m.AuditTemplateId)
+        @Html.HiddenFor(m => m.Id)
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value=@(Model.Id != null ? "Save" : "Create") />
+        </div>
+    </div>
+}
+

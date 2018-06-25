@@ -1,0 +1,92 @@
+﻿@model List<AuditTemplateViewModel>
+@{
+    ViewBag.Title = "Audit Templates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+@Html.ActionLink("New Audit", "Add", null, new { @class = "btn btn-default" })
+<hr />
+<p class="text-danger">@ViewBag.Message</p>
+<table id="audit-templates" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Version</th>
+            <th>Deployed</th>
+            <th>Depreciated</th>
+            <th>Created</th>
+            <th>Created by</th>
+            <th>Modified</th>
+            <th>Modified by</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var template in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(template.Id.ToString(), "Details", new { id = template.Id })</td>
+                <td>@Html.ActionLink(template.Title, "Details", new { id = template.Id })</td>
+                <td>@Html.ActionLink(template.Version, "Details", new { id = template.Id })</td>
+                @if (template.DeployDateTime != null)
+                {
+                    <td>@template.DeployDateTime.Value.ToString("MM/dd/yyyy")</td>
+                    if (template.DepreciateDateTime != null)
+                    {
+                        <td>@template.DepreciateDateTime.Value.ToString("MM/dd/yyyy")</td>
+                    }
+                    else
+                    {
+                        <td style="font-style:italic">Not Depreciated</td>
+                    }
+                }
+                else
+                {
+                    <td style="font-style:italic">Not Deployed</td>
+                    <td>-</td>
+                }
+                <td>@template.CreateDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@template.CreatedBy.NameFLUser</td>
+                <td>@template.ModifiedDateTime.ToString("MM/dd/yyy")</td>
+                <td>@template.ModifiedBy.NameFLUser</td>
+                <td>
+                    @if (template.AuditsCompleted == 0)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                    @if (template.DeployDateTime == null)
+                    {
+                        @Html.ActionLink("Deploy", "Deploy", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                    else if (template.DeployDateTime != null && template.DepreciateDateTime == null && template.AuditsCompleted == 0)
+                    {
+                        @Html.ActionLink("Recall", "Recall", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                    @if (template.DeployDateTime != null && template.DepreciateDateTime == null)
+                    {
+                        @Html.ActionLink("Depreciate", "Depreciate", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                    else if (template.DepreciateDateTime != null)
+                    {
+                        @Html.ActionLink("Re-instate", "Re-instate", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                    @if (template.AuditsCompleted == 0)
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = template.Id }, new { @style = "display: block" });
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#audit-templates").DataTable();
+        })
+    </script>
+}
+

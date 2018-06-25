@@ -21,10 +21,17 @@ namespace Dubbelvy.Models
         [Display(Name = "Created on")]
         public DateTime CreateDateTime { get; set; }
 
+        [Required]
         [Display(Name = "Created by")]
         public string CreatedById { get; set; }
         [Display(Name = "Created by")]
         public ApplicationUser CreatedBy { get; set; }
+
+        public DateTime ModifiedDateTime { get; set; }
+
+        [Required]
+        public string ModifiedById { get; set; }
+        public ApplicationUser ModifiedBy { get; set; }
 
         [Display(Name = "Audit Section")]
         public int SectionId { get; set; }

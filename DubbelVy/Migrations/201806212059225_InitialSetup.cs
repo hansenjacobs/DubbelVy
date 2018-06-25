@@ -196,7 +196,7 @@ namespace Dubbelvy.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
 
-            Sql("INSERT INTO AspNetUsers (Id, NameFirst, NameLast, SupervisorId, ServiceDateTime, Email, EmailConfirmed, PasswordHash, SecurityStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount, UserName) VALUES ('e292f2bc-5c26-4bf2-8e4a-cb0c65f5d41e', 'Admin', 'Admin', '00000000-0000-0000-0000-000000000000', '2000-01-01', 'admin@admin.com', 0, 'AMBJIrkm8CcqcD1M6gf/+krH1bG1RJSJwbd1bE8GMWXievNx6N2WJce2EqXux7S5lA==', 'ecb708d2-03af-4a6f-9f67-86ca5d3f1a82', 0, 0, 1, 0, 'admin')");
+            Sql("INSERT INTO AspNetUsers (Id, NameFirst, NameLast, SupervisorId, ServiceDateTime, Email, EmailConfirmed, PasswordHash, SecurityStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount, UserName) VALUES ('e292f2bc-5c26-4bf2-8e4a-cb0c65f5d41e', 'Admin', 'Admin', '00000000-0000-0000-0000-000000000000', '2000-01-01', 'admin@admin.com', 0, 'AMBJIrkm8CcqcD1M6gf/+krH1bG1RJSJwbd1bE8GMWXievNx6N2WJce2EqXux7S5lA==', 'ecb708d2-03af-4a6f-9f67-86ca5d3f1a82', 0, 0, 1, 0, 'admin@admin.com')");
         }
         
         public override void Down()

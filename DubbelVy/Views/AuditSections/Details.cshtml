@@ -1,0 +1,35 @@
+﻿@model AuditSectionViewModel
+@{
+    ViewBag.Title = "Audit Section Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.Description)</dt>
+            <dd>@Model.Description</dd>
+            <dt>@Html.DisplayNameFor(m => m.Weight)</dt>
+            <dd>@Model.WeightDisplay</dd>
+            <dt>@Html.DisplayNameFor(m => m.AuditTemplateId)</dt>
+            <dd>
+                @Html.ActionLink($"{Model.AuditTemplate.Title} V{Model.AuditTemplate.Version}", "Details", "AuditTemplates", new { id = Model.AuditTemplateId }, null)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
+            <dd>@Model.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.CreatedById)</dt>
+            <dd>@Model.CreatedBy.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedDateTime)</dt>
+            <dd>@Model.ModifiedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedById)</dt>
+            <dd>@Model.ModifiedBy.NameFLUser</dd>
+        </dl>
+    </div>
+</div>
+

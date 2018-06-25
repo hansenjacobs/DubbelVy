@@ -22,8 +22,15 @@ namespace Dubbelvy.Models
 
         public DateTime CreateDateTime { get; set; }
 
+        [Required]
         public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
+
+        public DateTime ModifiedDateTime { get; set; }
+
+        [Required]
+        public string ModifiedById { get; set; }
+        public ApplicationUser ModifiedBy { get; set; }
 
         public ICollection<AuditSection> Sections { get; set; }
     }

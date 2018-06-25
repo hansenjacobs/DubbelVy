@@ -22,7 +22,5 @@ namespace Dubbelvy.Models
 
         [Display(Name = "Display Order")]
         public int Order { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }
