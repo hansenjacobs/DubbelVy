@@ -15,7 +15,7 @@ namespace Dubbelvy.Models
 
         [Display(Name = "Audit Template")]
         public int AuditTemplateId { get; set; }
-        public AuditTemplate AuditTemplate { get; set; }
+        public AuditTemplateViewModel AuditTemplate { get; set; }
 
         public double? Weight { get; set; }
         [Display(Name = "Weight")]

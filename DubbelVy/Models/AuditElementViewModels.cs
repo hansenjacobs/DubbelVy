@@ -17,17 +17,24 @@ namespace Dubbelvy.Models
         [Required]
         public string Text { get; set; }
 
-        [Display(Name = "Created on")]
+        [Display(Name = "Created")]
         public DateTime CreateDateTime { get; set; }
 
         [Display(Name = "Created by")]
         public string CreatedById { get; set; }
-        [Display(Name = "Created by")]
         public ApplicationUser CreatedBy { get; set; }
+
+        [Display(Name = "Modified")]
+        public DateTime ModifiedDateTime { get; set; }
+
+        [Required]
+        [Display(Name = "Modified by")]
+        public string ModifiedById { get; set; }
+        public ApplicationUser ModifiedBy { get; set; }
 
         [Display(Name = "Audit Section")]
         public int SectionId { get; set; }
-        public AuditSection Section { get; set; }
+        public AuditSectionViewModel Section { get; set; }
 
         [Display(Name = "Audit Choices")]
         public List<AuditElementChoiceViewModel> Choices { get; set; }

@@ -204,8 +204,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditElementsController.cs" />
     <Compile Include="Controllers\AuditSectionsController.cs" />
     <Compile Include="Controllers\AuditTemplatesController.cs" />
+    <Compile Include="Controllers\ElementChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -539,7 +541,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AuditElements\" />
     <Folder Include="Views\AuditElement\" />
+    <Folder Include="Views\ElementChoices\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -25,9 +25,11 @@ namespace Dubbelvy.Controllers
 
             var viewModel = new AuditSectionViewModel
             {
-                AuditTemplate = _context.AuditTemplates.Single(a => a.Id == auditTemplateId),
+                AuditTemplate = new AuditTemplateViewModel(),
                 AuditTemplateId = auditTemplateId
             };
+
+            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == auditTemplateId), viewModel.AuditTemplate);
 
             return View("Form",viewModel);
         }
@@ -52,7 +54,8 @@ namespace Dubbelvy.Controllers
                 return RedirectToAction("Details", "AuditTemplates", new { id = newAuditSection.AuditTemplateId });
             }
 
-            model.AuditTemplate = _context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId);
+            model.AuditTemplate = new AuditTemplateViewModel();
+            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId), model.AuditTemplate);
             return View("Form", model);
         }
 
@@ -114,7 +117,8 @@ namespace Dubbelvy.Controllers
                 return RedirectToAction("Details", "AuditTemplates", new { id = auditSection.AuditTemplateId });
             }
 
-            model.AuditTemplate = _context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId);
+            model.AuditTemplate = new AuditTemplateViewModel();
+            AutoMapper.Mapper.Map(_context.AuditTemplates.Single(a => a.Id == model.AuditTemplateId), model.AuditTemplate);
             return View("Form", model);
         }
     }
