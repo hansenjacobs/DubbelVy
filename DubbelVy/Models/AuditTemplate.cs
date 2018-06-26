@@ -16,6 +16,11 @@ namespace Dubbelvy.Models
         [Required]
         public string Version { get; set; }
 
+        public string TitleVersion
+        {
+            get { return $"{Title} V{Version}"; }
+        }
+
         public DateTime? DeployDateTime { get; set; }
 
         public DateTime? DepreciateDateTime { get; set; }

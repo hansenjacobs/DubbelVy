@@ -22,7 +22,7 @@ namespace Dubbelvy.Models
         [StringLength(100)]
         public string NameLast { get; set; }
 
-        public Guid SupervisorId { get; set; }
+        public string SupervisorId { get; set; }
         public ApplicationUser Supervisor { get; set; }
 
         public DateTime ServiceDateTime { get; set; }

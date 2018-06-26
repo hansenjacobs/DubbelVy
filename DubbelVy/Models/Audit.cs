@@ -35,9 +35,42 @@ namespace Dubbelvy.Models
         public string ModifiedById { get; set; }
         public ApplicationUser ModifiedBy { get; set; }
 
-        public double Score { get; set; }
+        public double? Score { get; set; }
+
+        public string ScoreDisplay
+        {
+            get { return Score != null ? Score.Value.ToString("0.00%") : "Not Scored"; }
+        }
 
         [StringLength(500)]
         public string Comment { get; set; }
+
+        public void UpdateFromViewModel(AuditViewModel viewModel)
+        {
+            AuditeeId = viewModel.AuditeeId;
+            SupervisorId = viewModel.SupervisorId;
+            AuditorId = viewModel.AuditorId;
+            WorkDateTime = viewModel.WorkDateTime;
+            WorkIdentifier = viewModel.WorkIdentifier;
+            ModifiedDateTime = viewModel.ModifiedDateTime != null ? viewModel.ModifiedDateTime.Value : DateTime.Now;
+            ModifiedById = viewModel.ModifiedById;
+            Score = (double)viewModel.Score;
+            Comment = viewModel.Comment;
+        }
+
+        public void CreateAuditResponses(AuditTemplate template, Guid auditId)
+        {
+            foreach(var section in template.Sections.OrderBy(s => s.Order))
+            {
+                foreach(var element in section.Elements.OrderBy(e => e.Order))
+                {
+                    var auditResponse = new AuditResponse
+                    {
+                        AuditId = auditId,
+                        ElementId = element.Id
+                    };
+                }
+            }
+        }
     }
 }

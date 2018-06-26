@@ -205,6 +205,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuditElementsController.cs" />
+    <Compile Include="Controllers\AuditResponsesController.cs" />
+    <Compile Include="Controllers\AuditsController.cs" />
     <Compile Include="Controllers\AuditSectionsController.cs" />
     <Compile Include="Controllers\AuditTemplatesController.cs" />
     <Compile Include="Controllers\AuditElementChoicesController.cs" />
@@ -225,6 +227,10 @@
     <Compile Include="Migrations\201806251650176_AddOrderToAuditElement.Designer.cs">
       <DependentUpon>201806251650176_AddOrderToAuditElement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806261436272_B.cs" />
+    <Compile Include="Migrations\201806261436272_B.Designer.cs">
+      <DependentUpon>201806261436272_B.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Audit.cs" />
@@ -233,10 +239,12 @@
     <Compile Include="Models\AuditElementChoiceViewModels.cs" />
     <Compile Include="Models\AuditElementViewModels.cs" />
     <Compile Include="Models\AuditResponse.cs" />
+    <Compile Include="Models\AuditResponseViewModels.cs" />
     <Compile Include="Models\AuditSection.cs" />
     <Compile Include="Models\AuditSectionViewModels.cs" />
     <Compile Include="Models\AuditTemplate.cs" />
     <Compile Include="Models\AuditTemplateViewModels.cs" />
+    <Compile Include="Models\AuditViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -545,6 +553,10 @@
     <Content Include="Views\AuditElements\Form.cshtml" />
     <Content Include="Views\AuditElements\Details.cshtml" />
     <Content Include="Views\AuditElementChoices\Form.cshtml" />
+    <Content Include="Views\Audits\Index.cshtml" />
+    <Content Include="Views\AuditResponses\Form.cshtml" />
+    <Content Include="Views\Audits\Add.cshtml" />
+    <Content Include="Views\Shared\Editors\_AuditResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -571,6 +583,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806251650176_AddOrderToAuditElement.resx">
       <DependentUpon>201806251650176_AddOrderToAuditElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806261436272_B.resx">
+      <DependentUpon>201806261436272_B.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

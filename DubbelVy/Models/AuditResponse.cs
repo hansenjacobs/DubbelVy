@@ -16,10 +16,8 @@ namespace Dubbelvy.Models
         public int ElementId { get; set; }
         public AuditElement Element { get; set; }
 
-        public int ChoiceId { get; set; }
+        public int? ChoiceId { get; set; }
         public AuditElementChoice Choice { get; set; }
 
-        [StringLength(200)]
-        public string Comment { get; set; }
     }
 }

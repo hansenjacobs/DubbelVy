@@ -22,6 +22,9 @@ namespace Dubbelvy.App_Start
 
             CreateMap<AuditElementChoice, AuditElementChoiceViewModel>();
             CreateMap<AuditElementChoiceViewModel, AuditElementChoice>();
+
+            CreateMap<Audit, AuditViewModel>();
+            CreateMap<AuditViewModel, Audit>();
         }
 
         public static void Initialize()

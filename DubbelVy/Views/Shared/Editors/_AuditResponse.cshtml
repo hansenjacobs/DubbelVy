@@ -1,0 +1,7 @@
+﻿@model AuditResponse
+
+@Html.HiddenFor(m => m.AuditId)
+@Html.HiddenFor(m => m.ElementId)
+@Html.HiddenFor(m => m.Id)
+@Html.DropDownListFor(m => m.ChoiceId, new SelectList(Model.Element.Choices.OrderBy(a => a.Order), "Id", "Text"), new { @class = "form-control" })
+

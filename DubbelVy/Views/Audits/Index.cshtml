@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AuditViewModel>
+@{
+    ViewBag.Title = "Audits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<table id="audits" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Audit Date/Time</th>
+            <th>Auditee</th>
+            <th>Template</th>
+            <th>Supervisor</th>
+            <th>Work Date</th>
+            <th>Work Identifier</th>
+            <th>Score</th>
+            <th>Auditor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var audit in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(audit.AuditDateTime.Value.ToString("MM/dd/yyyy"), "Details", "Audits", new { id = audit.Id }, null)</td>
+                <td>@audit.Auditee.NameFLUser</td>
+                <td>@audit.Supervisor.NameFLUser</td>
+                <td>@audit.WorkDateTime.ToString("MM/dd/yyyy HH:mm")</td>
+                <td>@audit.WorkIdentifier</td>
+                <td>@audit.ScoreDisplay</td>
+                <td>@audit.Auditor.NameFLUser</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#audits").DataTable();
+        });
+    </script>
+    }
