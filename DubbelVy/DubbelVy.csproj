@@ -210,8 +210,25 @@
     <Compile Include="Controllers\AuditSectionsController.cs" />
     <Compile Include="Controllers\AuditTemplatesController.cs" />
     <Compile Include="Controllers\AuditElementChoicesController.cs" />
+    <Compile Include="Controllers\DisputesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Migrations\201806271843375_UpdatedDisputeModel.cs" />
+    <Compile Include="Migrations\201806271843375_UpdatedDisputeModel.Designer.cs">
+      <DependentUpon>201806271843375_UpdatedDisputeModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806271844381_SeedDisputeDecisions.cs" />
+    <Compile Include="Migrations\201806271844381_SeedDisputeDecisions.Designer.cs">
+      <DependentUpon>201806271844381_SeedDisputeDecisions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806271855241_UpdatedDisputeAuditRelationshipOne2One.cs" />
+    <Compile Include="Migrations\201806271855241_UpdatedDisputeAuditRelationshipOne2One.Designer.cs">
+      <DependentUpon>201806271855241_UpdatedDisputeAuditRelationshipOne2One.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806271902395_UpdatedDisputeAuditRelationshipOne2One1.cs" />
+    <Compile Include="Migrations\201806271902395_UpdatedDisputeAuditRelationshipOne2One1.Designer.cs">
+      <DependentUpon>201806271902395_UpdatedDisputeAuditRelationshipOne2One1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DubbelVyEmail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -566,6 +583,8 @@
     <Content Include="Views\Audits\Details.cshtml" />
     <Content Include="Views\AuditResponses\Form.cshtml" />
     <Content Include="Views\Audits\EditComment.cshtml" />
+    <Content Include="Views\Dispute\Index.cshtml" />
+    <Content Include="Views\Dispute\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -598,6 +617,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806271836016_AddDisputeModel.resx">
       <DependentUpon>201806271836016_AddDisputeModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271843375_UpdatedDisputeModel.resx">
+      <DependentUpon>201806271843375_UpdatedDisputeModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271844381_SeedDisputeDecisions.resx">
+      <DependentUpon>201806271844381_SeedDisputeDecisions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271855241_UpdatedDisputeAuditRelationshipOne2One.resx">
+      <DependentUpon>201806271855241_UpdatedDisputeAuditRelationshipOne2One.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271902395_UpdatedDisputeAuditRelationshipOne2One1.resx">
+      <DependentUpon>201806271902395_UpdatedDisputeAuditRelationshipOne2One1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

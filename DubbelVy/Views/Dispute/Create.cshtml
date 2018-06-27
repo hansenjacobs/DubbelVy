@@ -1,0 +1,57 @@
+﻿@model Dispute
+@{
+    ViewBag.Title = "Submit a Dispute";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Submit a Dispute</h2>
+<hr />
+<div id="audit" class="row">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.Audit.AuditeeId)</dt>
+            <dd>@Model.Audit.Auditee.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.SupervisorId)</dt>
+            <dd>@Model.Audit.Supervisor.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.WorkDateTime)</dt>
+            <dd>@Model.Audit.WorkDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.WorkIdentifier)</dt>
+            <dd>@Model.Audit.WorkIdentifier</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.Score)</dt>
+            <dd>@Model.Audit.ScoreDisplay</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>Audit Template</dt>
+            <dd>@Model.Audit.AuditTemplate.TitleVersion</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.AuditDateTime)</dt>
+            <dd>@Model.Audit.AuditDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.Audit.ModifiedDateTime)</dt>
+            <dd>@Model.Audit.ModifiedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+        </dl>
+    </div>
+</div>
+<hr />
+
+@using (Html.BeginForm("Create", "Disputes", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.AuditId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Comments, new { @class = "col-md-2 control-label", @value = "What are you disputing?" })
+        <p>Please provide a full desciption of why you are disputing this audit.  Being sure to note any related materials/trainings that support your claim.</p>
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Comments, new { @class = "form-control", @rows = "10" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Submit" />
+        </div>
+    </div>
+}
+

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Dispute>
+@{
+    ViewBag.Title = "Audit Disputes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<table class="table table-bordered table-hover table-responsive" id="disputes">
+    <thead>
+        <tr>
+            <th>Dispute Date</th>
+            <th>Auditee</th>
+            <th>Work Date</th>
+            <th>Work Identifier</th>
+            <th>Auditor</th>
+            <th>Audit Date</th>
+            <th>Decision</th>
+            <th>Decision Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var dispute in Model)
+        {
+            <tr>
+                <td>@dispute.CreateDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@dispute.Audit.Auditee.NameFLUser</td>
+                <td>@dispute.Audit.WorkDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@dispute.Audit.WorkIdentifier</td>
+                <td>@dispute.Audit.Auditor.NameFLUser</td>
+                <td>@dispute.Audit.AuditDateTime.ToString("MM/dd/yyyy")</td>
+                @if(dispute.Decision == null)
+                {
+                    <td>Pending</td>
+                    <td>-</td>
+                }
+                else
+                {
+                    <td>@dispute.Decision.Text</td>
+                    <td>@dispute.DecisionDateTime</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#disputes").DataTable();
+        });
+    </script>
+    }
