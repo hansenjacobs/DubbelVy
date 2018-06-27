@@ -63,13 +63,14 @@ namespace Dubbelvy.Controllers
 
                 foreach(var section in auditTemplate.Sections)
                 {
-                    section.Elements = _context.AuditElements.Where(a => a.SectionId == section.Id).ToList();
+                    section.Elements = _context.AuditElements.Include(a => a.Choices).Where(a => a.SectionId == section.Id).ToList();
                     foreach(var element in section.Elements)
                     {
                         var auditResponse = new AuditResponse
                         {
                             AuditId = audit.Id,
-                            ElementId = element.Id
+                            ElementId = element.Id,
+                            ChoiceId = element.Choices.OrderBy(e => e.Order).ToList()[0].Id
                         };
                         auditResponses.Add(auditResponse);
                     }
@@ -78,11 +79,33 @@ namespace Dubbelvy.Controllers
                 _context.AuditResponses.AddRange(auditResponses);
                 _context.SaveChanges();
 
-                return RedirectToAction("Edit", "AuditResponses", new { id = audit.Id });
+                return RedirectToAction("Details", "Audits", new { id = audit.Id });
             }
 
             model.Users = _context.Users.OrderBy(u => u.NameLastFirstMiddle).ToList();
             return View("Form", model);
+        }
+
+        public ActionResult Delete(Guid id)
+        {
+            var audit = _context.Audits.Single(a => a.Id == id);
+            _context.Audits.Remove(audit);
+            TempData["message"] = "Audit successfully deleted.";
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(Guid id)
+        {
+            var audit = _context.Audits
+                .Include(a => a.Auditee)
+                .Include(a => a.Auditor)
+                .Include(a => a.AuditResponses.Select(r => r.Choice))
+                .Include(a => a.AuditTemplate.Sections.Select(s => s.Elements.Select(e => e.Choices)))
+                .Include(a => a.ModifiedBy)
+                .Include(a => a.Supervisor)
+                .Single(a => a.Id == id);
+
+            return View(audit);
         }
 
         public ActionResult Index()
@@ -99,6 +122,53 @@ namespace Dubbelvy.Controllers
             AutoMapper.Mapper.Map(audits, viewModel);
 
             return View(viewModel);
+        }
+
+        public double? Score(Guid id)
+        {
+            var audit = _context.Audits
+                .Include(a => a.AuditResponses.Select(r => r.Choice))
+                .Include(a => a.AuditTemplate.Sections)
+                .Include(a => a.AuditResponses.Select(r => r.Choice))
+                .Single(a => a.Id == id);
+
+            var _auditTotalPossiblePoints = audit.AuditTemplate.GetTotalPossiblePoints(_context);
+            if (!_auditTotalPossiblePoints.HasValue) { return null; }
+            var auditTotalPossiblePoints = _auditTotalPossiblePoints.Value;
+
+            var finalScore = 0.0;
+
+            foreach(var section in audit.AuditTemplate.Sections)
+            {
+                var sectionScore = 0.0;
+                var sectionTotalPossiblePoints = section.GetTotalPossiblePoints(_context);
+                foreach(var response in audit.AuditResponses.Where(r => r.Element.SectionId == section.Id))
+                {
+                    sectionScore += response.Choice.Score;
+                }
+
+                if(section.Weight == null)
+                {
+                    if(sectionScore < sectionTotalPossiblePoints)
+                    {
+                        finalScore = 0;
+                        break;
+                    }
+                }
+                else
+                {
+                    finalScore += (sectionScore / sectionTotalPossiblePoints.Value * section.Weight.Value);
+                }
+            }
+
+            return finalScore;
+        }
+
+        public ActionResult ScoreSend (Guid id)
+        {
+            Score(id);
+
+            return RedirectToAction("Details", new { id = id });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
@@ -46,6 +47,26 @@ namespace Dubbelvy.Models
             ModifiedById = viewModel.ModifiedById;
             ModifiedDateTime = viewModel.ModifiedDateTime != null ? viewModel.ModifiedDateTime.Value : DateTime.Now;
             Order = viewModel.Order;
+        }
+
+        public double? GetTotalPossiblePoints(ApplicationDbContext _context)
+        {
+            Elements = _context.AuditElements
+                .Where(e => e.SectionId == Id)
+                .ToList();
+
+            if(Elements.Count > 0)
+            {
+                double result = 0;
+                foreach (var element in Elements)
+                {
+                    var elementPoints = element.GetTotalPossiblePoints(_context);
+                    if(elementPoints.HasValue) { result += elementPoints.Value; }
+                }
+                return result;
+            }
+
+            return null;
         }
     }
 }

@@ -19,63 +19,46 @@ namespace Dubbelvy.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(int id)
         {
-            var auditId = id;
+            var auditResponse = _context.AuditResponses
+                .Include(a => a.Audit.Auditee)
+                .Include(a => a.Audit.AuditTemplate)
+                .Include(a => a.Audit.Supervisor)
+                .Include(a => a.Element.Choices)
+                .Single(a => a.Id == id);
 
-            var viewModel = new AuditResponseViewModel
-            {
-                AuditId = auditId,
-                Audit = _context.Audits
-                .Include(a => a.Auditee)
-                .Include(a => a.Auditor)
-                .Include(a => a.AuditTemplate.Sections.Select(s => s.Elements.Select(e => e.Choices)))
-                .Include(a => a.ModifiedBy)
-                .Include(a => a.Supervisor)
-                .Single(a => a.Id == auditId)
-            };
-
-            var auditResponses = _context.AuditResponses.Include(a => a.Element.Choices).Where(a => a.AuditId == auditId);
-            viewModel.AuditResponses = new Dictionary<int, AuditResponse>();
-            foreach(var auditResponse in auditResponses)
-            {
-                viewModel.AuditResponses.Add(auditResponse.ElementId, auditResponse);
-            }
-
-            return View("Form", viewModel);
+            return View("Form", auditResponse);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AuditResponseViewModel model)
+        public ActionResult Edit(AuditResponse model)
         {
             var userId = User.Identity.GetUserId();
             var submitDateTime = DateTime.Now;
 
-            if (ModelState.IsValid)
+            if(model.ChoiceId != null)
             {
-                var auditResponseUpdates = new List<AuditResponse>();
-                foreach(var auditResponse in model.AuditResponses)
-                {
-                    var auditResponseInDb = _context.AuditResponses.Single(a => a.Id == auditResponse.Value.Id);
-                    auditResponseInDb.ChoiceId = auditResponse.Value.ChoiceId;
-                    auditResponseUpdates.Add(auditResponseInDb);
-                }
+                var auditResponse = _context.AuditResponses.Single(a => a.Id == model.Id);
+                var audit = _context.Audits.Single(a => a.Id == model.AuditId);
 
-                var audit = _context.Audits.Single(a => a.Id == model.Audit.Id);
+                auditResponse.ChoiceId = model.ChoiceId;
+
                 audit.ModifiedById = userId;
                 audit.ModifiedDateTime = submitDateTime;
 
                 _context.SaveChanges();
+
+                return RedirectToAction("Details", "Audits", new { id = audit.Id });
             }
 
-            model.Audit = _context.Audits
-                .Include(a => a.Auditee)
-                .Include(a => a.Auditor)
-                .Include(a => a.AuditTemplate.Sections.Select(s => s.Elements.Select(e => e.Choices)))
-                .Include(a => a.ModifiedBy)
-                .Include(a => a.Supervisor)
-                .Single(a => a.Id == model.AuditId);
+            model = _context.AuditResponses
+                .Include(a => a.Audit.Auditee)
+                .Include(a => a.Audit.AuditTemplate)
+                .Include(a => a.Audit.Supervisor)
+                .Include(a => a.Choice.Element.Section)
+                .Single(a => a.Id == model.Id);
 
             return View("Form", model);
         }

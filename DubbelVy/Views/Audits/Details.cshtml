@@ -1,0 +1,69 @@
+﻿@model Audit
+@{
+    ViewBag.Title = "Audit Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div id="audit" class="row">
+    <div class="col-md-5">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.AuditeeId)</dt>
+            <dd>@Model.Auditee.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.SupervisorId)</dt>
+            <dd>@Model.Supervisor.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.WorkDateTime)</dt>
+            <dd>@Model.WorkDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.WorkIdentifier)</dt>
+            <dd>@Model.WorkIdentifier</dd>
+            <dt>@Html.DisplayNameFor(m => m.Score)</dt>
+            <dd>@Model.ScoreDisplay</dd>
+        </dl>
+    </div>
+    <div class="col-md-5">
+        <dl class="dl-horizontal">
+            <dt>Audit Template</dt>
+            <dd>@Model.AuditTemplate.Title V@(Model.AuditTemplate.Version)</dd>
+            <dt>@Html.DisplayNameFor(m => m.AuditorId)</dt>
+            <dd>@Model.Auditor.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.AuditDateTime)</dt>
+            <dd>@Model.AuditDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedById)</dt>
+            <dd>@Model.ModifiedBy.NameFLUser</dd>
+            <dt>@Html.DisplayNameFor(m => m.ModifiedDateTime)</dt>
+            <dd>@Model.ModifiedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+        </dl>
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Edit Audit", "Edit", new { id = Model.Id })<br />
+        @Html.ActionLink("Score & Send Audit", "ScoreSend", new { id = Model.Id })<br />
+        @Html.ActionLink("Delete Audit", "Delete", new { id = Model.Id })<br />
+    </div>
+</div>
+<hr />
+<div class="row border" id="comment">
+    <h3 style="display:inline">Comments</h3>
+    @Html.ActionLink("Edit", "EditComment", new { id = Model.Id })<br />
+    @Model.Comment
+</div>
+<hr />
+@foreach(var auditSection in Model.AuditTemplate.Sections.OrderBy(s => s.Order).ToList())
+{
+    <div class="section" id="section-@auditSection.Description">
+        <h3 style="display:inline">@auditSection.Description</h3>
+        <h5 class="section-weight" style="color:midnightblue; display:inline; padding-left:15px">@auditSection.WeightDisplay</h5>
+        <div class="elements col-md-offset-1" id="elements-@auditSection.Description">
+            <table class="table table-hover">
+                @foreach (var auditElement in auditSection.Elements.OrderBy(e => e.Order).ToList())
+                {
+                    var response = Model.AuditResponses.ToList().Find(r => r.ElementId == auditElement.Id);
+                    <tr>
+                        <td class="col-md-3"><b>@Html.ActionLink(response.Choice.Text, "Edit", "AuditResponses", new { id = response.Id }, null)</b></td>
+                        <td class="col-md-9"><b>@auditElement.Topic:</b> @auditElement.Text</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+

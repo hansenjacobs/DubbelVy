@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,18 @@ namespace Dubbelvy.Models
 
         [Display(Name = "Audit Choices")]
         public ICollection<AuditElementChoice> Choices { get; set; }
+
+        public double? GetTotalPossiblePoints(ApplicationDbContext _context)
+        {
+            Choices = _context.AuditElementChoices.Where(c => c.ElementId == Id).ToList();
+
+            if(Choices.Count > 0)
+            {
+                return Choices.Max(c => c.Score);
+            }
+
+            return null;
+        }
 
         public void UpdateFromViewModel (AuditElementViewModel viewModel)
         {

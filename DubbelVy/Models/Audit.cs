@@ -42,6 +42,8 @@ namespace Dubbelvy.Models
             get { return Score != null ? Score.Value.ToString("0.00%") : "Not Scored"; }
         }
 
+        public ICollection<AuditResponse> AuditResponses { get; set; }
+
         [StringLength(500)]
         public string Comment { get; set; }
 

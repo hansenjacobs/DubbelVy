@@ -6,6 +6,11 @@
 
 <h2>@ViewBag.Title</h2>
 <hr />
+@if (TempData.ContainsKey("message"))
+{
+    <p class="text-info">@TempData["Message"]</p>
+}
+@Html.ActionLink("New Audit", "Add", null, new { @class = "btn btn-default", @style = "margin-bottom:15px" })
 <table id="audits" class="table table-bordered table-hover table-responsive">
     <thead>
         <tr>

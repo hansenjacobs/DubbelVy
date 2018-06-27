@@ -554,9 +554,10 @@
     <Content Include="Views\AuditElements\Details.cshtml" />
     <Content Include="Views\AuditElementChoices\Form.cshtml" />
     <Content Include="Views\Audits\Index.cshtml" />
-    <Content Include="Views\AuditResponses\Form.cshtml" />
     <Content Include="Views\Audits\Add.cshtml" />
     <Content Include="Views\Shared\Editors\_AuditResponse.cshtml" />
+    <Content Include="Views\Audits\Details.cshtml" />
+    <Content Include="Views\AuditResponses\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -606,7 +607,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50631</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50631/</IISUrl>
+          <IISUrl>http://localhost:10000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

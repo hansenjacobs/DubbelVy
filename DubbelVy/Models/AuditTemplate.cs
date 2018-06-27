@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,24 @@ namespace Dubbelvy.Models
         public int GetCompletedAuditCount(ApplicationDbContext _context)
         {
             return _context.Audits.Count(a => a.AuditTemplateId == Id);
+        }
+
+        public double? GetTotalPossiblePoints(ApplicationDbContext _context)
+        {
+            Sections = _context.AuditSections.Where(a => a.AuditTemplateId == Id).ToList();
+
+            if(Sections.Count > 0)
+            {
+                double result = 0;
+                foreach(var section in Sections)
+                {
+                    var sectionPoints = section.GetTotalPossiblePoints(_context);
+                    if (sectionPoints.HasValue) { result += sectionPoints.Value; }
+                }
+                return result;
+            }
+
+            return null;
         }
 
         public void UpdateFromViewModel(AuditTemplateViewModel viewModel)
