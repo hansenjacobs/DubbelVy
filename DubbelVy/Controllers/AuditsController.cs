@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -108,6 +110,34 @@ namespace Dubbelvy.Controllers
             return View(audit);
         }
 
+        public ActionResult EditComment(Guid id)
+        {
+            var audit = _context.Audits
+                .Include(a => a.Auditee)
+                .Include(a => a.Auditor)
+                .Include(a => a.AuditResponses.Select(r => r.Choice))
+                .Include(a => a.AuditTemplate.Sections.Select(s => s.Elements.Select(e => e.Choices)))
+                .Include(a => a.ModifiedBy)
+                .Include(a => a.Supervisor)
+                .Single(a => a.Id == id);
+
+            return View(audit);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditComment(Audit model)
+        {
+            var audit = _context.Audits.Single(a => a.Id == model.Id);
+            audit.Comment = model.Comment;
+            audit.ModifiedDateTime = DateTime.Now;
+            audit.ModifiedById = User.Identity.GetUserId();
+            audit.Score = null;
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = audit.Id });
+        }
+
         public ActionResult Index()
         {
             var audits = _context.Audits
@@ -161,14 +191,43 @@ namespace Dubbelvy.Controllers
                 }
             }
 
+            audit.Score = finalScore;
+            audit.ModifiedById = User.Identity.GetUserId();
+            audit.ModifiedDateTime = DateTime.Now;
+            _context.SaveChanges();
+
             return finalScore;
         }
 
         public ActionResult ScoreSend (Guid id)
         {
-            Score(id);
+            if(Score(id) != null)
+            {
+                Send(id);
+                return RedirectToAction("Details", new { id = id });
+            }
 
+            TempData.Add("message", "Unable to score audit. The audit template it is based on has a total possible point value of zero.");
             return RedirectToAction("Details", new { id = id });
+        }
+
+        public void Send(Guid id)
+        {
+            var scoreThresholdBelowEmailSupervisor = 0.80;
+
+            var audit = _context.Audits
+                .Include(a => a.Auditee.Supervisor)
+                .Include(a => a.AuditTemplate)
+                .Single(a => a.Id == id);
+
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(audit.Auditee.Email));
+            if(audit.Score < scoreThresholdBelowEmailSupervisor) { message.To.Add(new MailAddress(audit.Auditee.Supervisor.Email)); }
+            message.Subject = $"Audit Completed: {audit.WorkIdentifier} on {audit.WorkDateTime.ToString("MM/dd/yy")} - {audit.Auditee.NameFirstLast}";
+            message.Body = string.Format(DubbelVyEmail.AuditCompletedMessage, audit.AuditTemplate.TitleVersion, audit.Auditee.NameFLUser, audit.Auditee.Supervisor.NameFLUser, audit.WorkIdentifier, audit.WorkDateTime.ToString("MM/dd/yyyy hh:m:ss tt"), audit.ScoreDisplay, audit.Comment, audit.Id);
+            message.IsBodyHtml = true;
+
+            DubbelVyEmail.Send(message);
         }
     }
 }

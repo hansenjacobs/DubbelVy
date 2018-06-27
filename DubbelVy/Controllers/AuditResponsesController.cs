@@ -47,6 +47,7 @@ namespace Dubbelvy.Controllers
 
                 audit.ModifiedById = userId;
                 audit.ModifiedDateTime = submitDateTime;
+                audit.Score = null;
 
                 _context.SaveChanges();
 

@@ -212,6 +212,7 @@
     <Compile Include="Controllers\AuditElementChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Models\DubbelVyEmail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,6 +232,10 @@
     <Compile Include="Migrations\201806261436272_B.Designer.cs">
       <DependentUpon>201806261436272_B.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806271836016_AddDisputeModel.cs" />
+    <Compile Include="Migrations\201806271836016_AddDisputeModel.Designer.cs">
+      <DependentUpon>201806271836016_AddDisputeModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Audit.cs" />
@@ -245,6 +250,8 @@
     <Compile Include="Models\AuditTemplate.cs" />
     <Compile Include="Models\AuditTemplateViewModels.cs" />
     <Compile Include="Models\AuditViewModels.cs" />
+    <Compile Include="Models\Dispute.cs" />
+    <Compile Include="Models\DisputeDecision.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -558,6 +565,7 @@
     <Content Include="Views\Shared\Editors\_AuditResponse.cshtml" />
     <Content Include="Views\Audits\Details.cshtml" />
     <Content Include="Views\AuditResponses\Form.cshtml" />
+    <Content Include="Views\Audits\EditComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -587,6 +595,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806261436272_B.resx">
       <DependentUpon>201806261436272_B.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271836016_AddDisputeModel.resx">
+      <DependentUpon>201806271836016_AddDisputeModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -132,6 +132,8 @@ namespace Dubbelvy.Models
         public DbSet<AuditResponse> AuditResponses { get; set; }
         public DbSet<AuditSection> AuditSections { get; set; }
         public DbSet<AuditTemplate> AuditTemplates { get; set; }
+        public DbSet<Dispute> Disputes { get; set; }
+        public DbSet<DisputeDecision> DisputeDecisions { get; set; }
 
 
         public ApplicationDbContext()
