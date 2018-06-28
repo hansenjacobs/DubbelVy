@@ -229,6 +229,7 @@
     <Compile Include="Migrations\201806271902395_UpdatedDisputeAuditRelationshipOne2One1.Designer.cs">
       <DependentUpon>201806271902395_UpdatedDisputeAuditRelationshipOne2One1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\DisputeViewModels.cs" />
     <Compile Include="Models\DubbelVyEmail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -583,8 +584,9 @@
     <Content Include="Views\Audits\Details.cshtml" />
     <Content Include="Views\AuditResponses\Form.cshtml" />
     <Content Include="Views\Audits\EditComment.cshtml" />
-    <Content Include="Views\Dispute\Index.cshtml" />
-    <Content Include="Views\Dispute\Create.cshtml" />
+    <Content Include="Views\Disputes\Index.cshtml" />
+    <Content Include="Views\Disputes\Create.cshtml" />
+    <Content Include="Views\Disputes\Supervisor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

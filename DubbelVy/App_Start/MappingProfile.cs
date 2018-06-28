@@ -25,6 +25,9 @@ namespace Dubbelvy.App_Start
 
             CreateMap<Audit, AuditViewModel>();
             CreateMap<AuditViewModel, Audit>();
+
+            CreateMap<Dispute, DisputeViewModel>();
+            CreateMap<DisputeViewModel, Dispute>();
         }
 
         public static void Initialize()

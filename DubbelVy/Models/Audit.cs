@@ -47,6 +47,8 @@ namespace Dubbelvy.Models
         [StringLength(500)]
         public string Comment { get; set; }
 
+        public Dispute Dispute { get; set; }
+
         public void UpdateFromViewModel(AuditViewModel viewModel)
         {
             AuditeeId = viewModel.AuditeeId;
