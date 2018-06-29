@@ -27,5 +27,7 @@ namespace Dubbelvy.Models
 
         public string DeciderId { get; set; }
         public ApplicationUser Decider { get; set; }
+
+        public List<DisputeDecision> DecisionOptions { get; set; }
     }
 }

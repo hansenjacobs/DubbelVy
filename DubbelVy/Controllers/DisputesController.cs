@@ -68,6 +68,59 @@ namespace Dubbelvy.Controllers
             return View(model);
         }
 
+        public ActionResult Details(Guid id)
+        {
+            var dispute = _context.Disputes
+                .Include(d => d.Audit.Auditee)
+                .Include(d => d.Audit.AuditTemplate)
+                .Include(d => d.Audit.Supervisor)
+                .Single(d => d.AuditId == id);
+            var viewModel = new DisputeViewModel();
+
+            AutoMapper.Mapper.Map(dispute, viewModel);
+
+            viewModel.DecisionOptions = _context.DisputeDecisions.ToList();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Detials(DisputeViewModel model)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = _context.Users.Single(u => u.Id == userId);
+            var submitDateTime = DateTime.Now;
+            var dispute = _context.Disputes.Single(d => d.AuditId == model.AuditId);
+
+            if(dispute.DecisionId != model.DecisionId)
+            {
+                dispute.DecisionId = model.DecisionId;
+                if(dispute.DecisionId != null)
+                {
+                    var decision = _context.DisputeDecisions.Single(d => d.Id == dispute.DecisionId);
+                    dispute.DecisionDateTime = submitDateTime;
+                    dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" +
+                        "Updated decision to " + decision.Text + "\r\n\r\n" + dispute.Comments;
+                }
+                else
+                {
+                    dispute.DecisionDateTime = null;
+                    dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" +
+                        "Removed decision.  Dispute now pending deicision" + "\r\n\r\n" + dispute.Comments;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(model.NewComment))
+            {
+                dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" +
+                    model.NewComment + "\r\n\r\n" + dispute.Comments;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = dispute.AuditId });
+        }
+
         public ActionResult Index()
         {
             var disputes = _context.Disputes
@@ -75,7 +128,6 @@ namespace Dubbelvy.Controllers
                 .Include(d => d.Audit.Auditor)
                 .Include(d => d.Audit.AuditTemplate)
                 .Include(d => d.Audit.Supervisor)
-                .Include(d => d.Decider)
                 .Include(d => d.Decision)
                 .ToList();
 
@@ -114,39 +166,6 @@ namespace Dubbelvy.Controllers
             return View("Index", disputes);
         }
 
-        public ActionResult Supervisor(Guid id)
-        {
-            var dispute = _context.Disputes
-                .Include(d => d.Audit.Auditee)
-                .Include(d => d.Audit.AuditTemplate)
-                .Include(d => d.Audit.Supervisor)
-                .Single(d => d.AuditId == id);
-
-            var viewModel = new DisputeViewModel();
-
-            AutoMapper.Mapper.Map(dispute, viewModel);
-
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Supervisor(DisputeViewModel model)
-        {
-            var userId = User.Identity.GetUserId();
-            var user = _context.Users.Single(u => u.Id == userId);
-            var submitDateTime = DateTime.Now;
-            var dispute = _context.Disputes.Single(d => d.AuditId == model.AuditId);
-
-            if(model.NewComment != null)
-            {
-                dispute.Comments += $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" + model.NewComment;
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Supervisor", new { id = dispute.AuditId });
-        }
-
         public ActionResult SupervisorApprove(Guid id)
         {
             var submitDateTime = DateTime.Now;
@@ -155,7 +174,8 @@ namespace Dubbelvy.Controllers
             var dispute = _context.Disputes.Single(d => d.AuditId == id);
 
             dispute.SupervisorApproveDateTime = DateTime.Now;
-            dispute.Comments += $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\nSupervisor Approved Dispute";
+            dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\nSupervisor Approved Dispute" +
+                "\r\n\r\n" + dispute.Comments;
             _context.SaveChanges();
 
             return RedirectToAction("Supervisor", dispute.AuditId);
@@ -171,10 +191,26 @@ namespace Dubbelvy.Controllers
             dispute.DeciderId = User.Identity.GetUserId();
             dispute.DecisionId = _context.DisputeDecisions.Single(d => d.Text == "Invalid").Id;
             dispute.DecisionDateTime = DateTime.Now;
-            dispute.Comments += $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\nSupervisor Denied Dispute";
+            dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\nSupervisor Denied Dispute" +
+                "\r\n\r\n" + dispute.Comments;
             _context.SaveChanges();
 
             return RedirectToAction("Supervisor", dispute.AuditId);
+        }
+
+        public ActionResult TeamDisputes()
+        {
+            var userId = User.Identity.GetUserId();
+            var disputes = _context.Disputes
+                .Include(d => d.Audit.Auditee)
+                .Include(d => d.Audit.Auditor)
+                .Include(d => d.Audit.AuditTemplate)
+                .Include(d => d.Audit.Supervisor)
+                .Include(d => d.Decision)
+                .Where(d => d.Audit.SupervisorId == userId)
+                .ToList();
+
+            return View("Index", disputes);
         }
     }
 }

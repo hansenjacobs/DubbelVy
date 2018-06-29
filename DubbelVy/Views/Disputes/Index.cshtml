@@ -31,7 +31,14 @@
                 <td>@dispute.Audit.AuditDateTime.ToString("MM/dd/yyyy")</td>
                 @if(dispute.Decision == null)
                 {
-                    <td>Pending</td>
+                    if(dispute.SupervisorApproveDateTime == null)
+                    {
+                        <td>Pending Supervisor Approval</td>
+                    }
+                    else
+                    {
+                        <td>Pending Decision</td>
+                    }
                     <td>-</td>
                 }
                 else

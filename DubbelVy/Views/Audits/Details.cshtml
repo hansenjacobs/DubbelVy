@@ -35,10 +35,38 @@
         </dl>
     </div>
     <div class="col-md-2">
-        @Html.ActionLink("Edit Audit", "Edit", new { id = Model.Id })<br />
-        @Html.ActionLink("Score & Send Audit", "ScoreSend", new { id = Model.Id })<br />
-        @Html.ActionLink("Delete Audit", "Delete", new { id = Model.Id })<br />
+        <ul>
+            @if ((User.IsInRole("Admin") || User.IsInRole("Audit Manager") || User.IsInRole("Auditor")) && Model.AuditeeId != User.Identity.GetUserId())
+            {
+                <li>@Html.ActionLink("Edit Audit", "Edit", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Score & Send Audit", "ScoreSend", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Delete Audit", "Delete", new { id = Model.Id })</li>
+            }
+            else if ((User.IsInRole("Auditee") || User.IsInRole("Supervisor") || Model.AuditeeId == User.Identity.GetUserId()) && Model.Dispute == null)
+            {
+                <li>@Html.ActionLink("Submit Dispute", "Create", "Disputes", new { id = Model.Id })</li>
+            }
+        </ul>
+        
     </div>
+</div>
+<div id="dispute">
+    @if(Model.Dispute != null)
+    {
+        <hr />
+        if (Model.Dispute.DecisionDateTime.HasValue || Model.Dispute.DeciderId != null)
+        {
+            <p class="text-info">
+                This audit was disputed and the dispute was found to be @Model.Dispute.Decision.Text. 
+                @Html.ActionLink("Click here to view the dispute.", "Details", "Disputes", new { id = Model.Id }, null)
+            </p>
+        }
+        else
+        {
+            <p class="text-danger">This audit is currently in dispute. @Html.ActionLink("Click here to view the dispute.", "Details", "Disputes", new { id = Model.Id }, null)</p>
+        }
+        <hr />
+    }
 </div>
 <hr />
 <div class="row border" id="comment">

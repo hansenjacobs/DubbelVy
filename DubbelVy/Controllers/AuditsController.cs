@@ -103,6 +103,7 @@ namespace Dubbelvy.Controllers
                 .Include(a => a.Auditor)
                 .Include(a => a.AuditResponses.Select(r => r.Choice))
                 .Include(a => a.AuditTemplate.Sections.Select(s => s.Elements.Select(e => e.Choices)))
+                .Include(a => a.Dispute.Decision)
                 .Include(a => a.ModifiedBy)
                 .Include(a => a.Supervisor)
                 .Single(a => a.Id == id);
@@ -152,6 +153,24 @@ namespace Dubbelvy.Controllers
             AutoMapper.Mapper.Map(audits, viewModel);
 
             return View(viewModel);
+        }
+
+        public ActionResult MyAudits()
+        {
+            var userId = User.Identity.GetUserId();
+            var audits = _context.Audits
+                .Include(a => a.Auditee)
+                .Include(a => a.Auditor)
+                .Include(a => a.AuditTemplate)
+                .Include(a => a.ModifiedBy)
+                .Include(a => a.Supervisor)
+                .Where(a => a.AuditeeId == userId)
+                .ToList();
+            var viewModel = new List<AuditViewModel>();
+
+            AutoMapper.Mapper.Map(audits, viewModel);
+
+            return View("Index", viewModel);
         }
 
         public double? Score(Guid id)
@@ -228,6 +247,24 @@ namespace Dubbelvy.Controllers
             message.IsBodyHtml = true;
 
             DubbelVyEmail.Send(message);
+        }
+
+        public ActionResult TeamAudits()
+        {
+            var userId = User.Identity.GetUserId();
+            var audits = _context.Audits
+                .Include(a => a.Auditee)
+                .Include(a => a.Auditor)
+                .Include(a => a.AuditTemplate)
+                .Include(a => a.ModifiedBy)
+                .Include(a => a.Supervisor)
+                .Where(a => a.SupervisorId == userId)
+                .ToList();
+            var viewModel = new List<AuditViewModel>();
+
+            AutoMapper.Mapper.Map(audits, viewModel);
+
+            return View("Index", viewModel);
         }
     }
 }
