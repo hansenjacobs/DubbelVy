@@ -1,0 +1,36 @@
+﻿@model DashboardKPI
+
+@if (Model is KPIMultiplePoint<int>)
+{
+    var kpiMultiplePoint = (KPIMultiplePoint<int>)Model;
+    <p>
+        @{var myChart = new Chart(width: 600, height: 400)
+            .AddSeries(
+            name: kpiMultiplePoint.Title,
+            xValue: kpiMultiplePoint.DataLabels.ToArray(),
+            yValues: kpiMultiplePoint.Data.ToArray(),
+            xField: kpiMultiplePoint.XAxisLabel,
+            yFields: kpiMultiplePoint.YAxisLabel)
+            .Write();
+        }
+    </p>
+}
+else if(Model is KPIMultiplePoint<double>)
+{
+    var kpiMultiplePoint = (KPIMultiplePoint<double>)Model;
+    <p>
+        @{var myChart = new Chart(width: 600, height: 400)
+              .AddSeries(
+              name: kpiMultiplePoint.Title,
+              xValue: kpiMultiplePoint.DataLabels.ToArray(),
+              yValues: kpiMultiplePoint.Data.ToArray(),
+              xField: kpiMultiplePoint.XAxisLabel,
+              yFields: kpiMultiplePoint.YAxisLabel)
+              .Write();
+        }
+    </p>
+}
+else
+{
+    <p>Unable to display this KPI.</p>
+}

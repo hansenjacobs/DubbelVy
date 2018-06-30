@@ -210,6 +210,7 @@
     <Compile Include="Controllers\AuditSectionsController.cs" />
     <Compile Include="Controllers\AuditTemplatesController.cs" />
     <Compile Include="Controllers\AuditElementChoicesController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DisputesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Migrations\201806281852468_SeedRoles.Designer.cs">
       <DependentUpon>201806281852468_SeedRoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardKPI.cs" />
     <Compile Include="Models\DisputeViewModels.cs" />
     <Compile Include="Models\DubbelVyEmail.cs" />
     <Compile Include="Global.asax.cs">
@@ -276,6 +278,8 @@
     <Compile Include="Models\Dispute.cs" />
     <Compile Include="Models\DisputeDecision.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\KPIMultiplePoint.cs" />
+    <Compile Include="Models\KPISinglePoint.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -595,6 +599,8 @@
     <Content Include="Views\Disputes\Details.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\RenderChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

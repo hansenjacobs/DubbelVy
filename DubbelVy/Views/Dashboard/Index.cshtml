@@ -1,0 +1,80 @@
+﻿@model IEnumerable<IEnumerable<DashboardKPI>>
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@foreach(var row in Model)
+{
+<div class="row" style="height:200px">
+    @foreach (var kpi in row)
+    {
+        if (kpi is KPISinglePoint<int>)
+        {
+            var kpiSinglePoint = (KPISinglePoint<int>)kpi;
+            <div class="col-md-@kpi.ColumnNumber.ToString() card" style="height:100%">
+                <h3 style="color:midnightblue">@kpi.Title</h3>
+                <h1 class="text-center" style="padding-top:20px">@kpiSinglePoint.Data.ToString(kpi.DataFormat)</h1>
+                <p style="font-style:italic">@kpiSinglePoint.DataLabel</p>
+            </div>
+        }
+        else if (kpi is KPISinglePoint<double>)
+        {
+            var kpiSinglePoint = (KPISinglePoint<double>)kpi;
+            <div class="col-md-@kpi.ColumnNumber.ToString() card" style="height:100%">
+                <h3 style="color:midnightblue">@kpi.Title</h3>
+                <h1 class="text-center" style="padding-top:20px">@kpiSinglePoint.Data.ToString(kpi.DataFormat)</h1>
+                <p style="font-style:italic">@kpiSinglePoint.DataLabel</p>
+            </div>
+        }
+        else if (kpi is KPIMultiplePoint<int>)
+        {
+            var kpiMultiplePoint = (KPIMultiplePoint<int>)kpi;
+            <div class="col-md-@kpi.ColumnNumber" style="height:100%">
+                <h3 style="color:midnightblue">@kpi.Title</h3>
+                <table class="table table-condensed table-responsive">
+                    <thead>
+                        <tr>
+                            <th>@kpiMultiplePoint.XAxisLabel</th>
+                            <th>@kpiMultiplePoint.YAxisLabel</th>
+                        </tr>
+                    </thead>
+                    @for(int i = 0; i < kpiMultiplePoint.Data.Count; i++)
+                    {
+                        <tr>
+                            <td>@kpiMultiplePoint.DataLabels[i]</td>
+                            <td>@kpiMultiplePoint.Data[i].ToString(kpi.DataFormat)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        else if (kpi is KPIMultiplePoint<double>)
+        {
+            var kpiMultiplePoint = (KPIMultiplePoint<double>)kpi;
+            <div class="col-md-@kpi.ColumnNumber card" style="height:100%">
+                <h3 style="color:midnightblue">@kpi.Title</h3>
+                <table class="table table-condensed table-responsive">
+                    <thead>
+                        <tr>
+                            <th>@kpiMultiplePoint.XAxisLabel</th>
+                            <th>@kpiMultiplePoint.YAxisLabel</th>
+                        </tr>
+                    </thead>
+                    @for (int i = 0; i < kpiMultiplePoint.Data.Count; i++)
+                    {
+                        <tr>
+                            <td>@kpiMultiplePoint.DataLabels[i]</td>
+                            <td>@kpiMultiplePoint.Data[i].ToString(kpi.DataFormat)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    }
+</div>
+}
+
