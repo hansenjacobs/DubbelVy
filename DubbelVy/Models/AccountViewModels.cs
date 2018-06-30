@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Dubbelvy.Models
 {
@@ -62,6 +63,40 @@ namespace Dubbelvy.Models
         public bool RememberMe { get; set; }
     }
 
+    public class EditViewModel
+    {
+        public string Id { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string NameFirst { get; set; }
+
+        [StringLength(50)]
+        public string NameMiddle { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string NameLast { get; set; }
+
+        [Required]
+        public string SupervisorId { get; set; }
+
+        public List<ApplicationUser> Supervisors { get; set; }
+
+        public System.DateTime ServiceDateTime { get; set; }
+        public System.DateTime? TerminationDateTime { get; set; }
+
+        [Required]
+        public string Role { get; set; }
+
+        public List<IdentityRole> Roles { get; set; }
+    }
+
     public class RegisterViewModel
     {
         [Required]
@@ -79,6 +114,30 @@ namespace Dubbelvy.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string NameFirst { get; set; }
+
+        [StringLength(50)]
+        public string NameMiddle { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string NameLast { get; set; }
+
+        [Required]
+        public string SupervisorId { get; set; }
+
+        public List<ApplicationUser> Supervisors { get; set; }
+
+        public System.DateTime ServiceDateTime { get; set; }
+        public System.DateTime? TerminationDateTime { get; set; }
+
+        [Required]
+        public string Role { get; set; }
+
+        public List<IdentityRole> Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

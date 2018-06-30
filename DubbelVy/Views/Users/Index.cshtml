@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+@Html.ActionLink("New User", "Register", "Account", null, new { @class = "btn btn-default", @style = "margin-bottom:15px"})
+<table id="users" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Supervisor</th>
+            <th>Service Date</th>
+            <th>Termination Date</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+            user.Roles.OrderBy(r => r.RoleId);
+            <tr>
+                <td>@Html.ActionLink(user.UserName, "Edit", "Account", new { id = user.Id }, null)</td>
+                <td>@user.NameFirstMiddleLast</td>
+                <td>@user.Supervisor.NameFirstMLast</td>
+                <td>@user.ServiceDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@(user.TerminationDateTime.HasValue ? user.TerminationDateTime.Value.ToString("MM/dd/yyyy") : "Active")</td>
+                <td>@(user.Roles.Count > 0 ? ViewBag.Roles[user.Roles.ToList()[0].RoleId] : "None")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#users").DataTable();
+        })
+    </script>
+    }

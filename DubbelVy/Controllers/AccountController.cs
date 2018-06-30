@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -134,12 +136,100 @@ namespace Dubbelvy.Controllers
             }
         }
 
+        public ActionResult Edit(string id)
+        {
+            var context = new ApplicationDbContext();
+
+            var user = context.Users.Include(u => u.Roles).Single(u => u.Id == id);
+            user.Roles.OrderBy(r => r.RoleId);
+            var roleId = user.Roles.ToList()[0].RoleId;
+            var viewModel = new EditViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                NameFirst = user.NameFirst,
+                NameLast = user.NameLast,
+                NameMiddle = user.NameMiddle,
+                Role = context.Roles.Single(r => r.Id == roleId).Name,
+                Roles = context.Roles.Include(r => r.Users).ToList(),
+                ServiceDateTime = user.ServiceDateTime,
+                SupervisorId = user.SupervisorId,
+                Supervisors = new List<ApplicationUser>(),
+                TerminationDateTime = user.TerminationDateTime
+            };
+
+            var results = context.Roles.Where(r => r.Name == "Admin" || r.Name == "Audit Manager" || r.Name == "Supervisor").Select(r => r.Users.Select(u => u.UserId)).ToList();
+            foreach (var list in results)
+            {
+                var supervisors = context.Users.Where(u => list.Contains(u.Id)).ToList();
+                viewModel.Supervisors.AddRange(supervisors);
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditViewModel model)
+        {
+            var context = new ApplicationDbContext();
+
+            if (ModelState.IsValid)
+            {
+                var user = context.Users.Include(u => u.Roles).Single(u => u.Id == model.Id);
+
+                user.Email = model.Email;
+                user.NameFirst = model.NameFirst;
+                user.NameLast = model.NameLast;
+                user.NameMiddle = model.NameMiddle;
+                user.ServiceDateTime = model.ServiceDateTime;
+                user.SupervisorId = model.SupervisorId;
+                user.TerminationDateTime = model.TerminationDateTime;
+                
+                foreach(var role in user.Roles)
+                {
+                    SignInManager.UserManager.RemoveFromRole(user.Id, context.Roles.Single(r => r.Id == role.RoleId).Name);
+                }
+
+                SignInManager.UserManager.AddToRole(user.Id, model.Role);
+                context.SaveChanges();
+
+                return RedirectToAction("Index", "Users");
+                
+            }
+
+            model.Roles = context.Roles.Include(r => r.Users).ToList();
+            var results = context.Roles.Where(r => r.Name == "Admin" || r.Name == "Audit Manager" || r.Name == "Supervisor").Select(r => r.Users.Select(u => u.UserId)).ToList();
+            model.Supervisors = new List<ApplicationUser>();
+            foreach (var list in results)
+            {
+                var supervisors = context.Users.Where(u => list.Contains(u.Id)).ToList();
+                model.Supervisors.AddRange(supervisors);
+            }
+            return View(model);
+        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var context = new ApplicationDbContext();
+
+            var viewModel = new RegisterViewModel
+            {
+                Roles = context.Roles.Include(r => r.Users).ToList(),
+                Supervisors = new List<ApplicationUser>()
+            };
+
+            var results = context.Roles.Where(r => r.Name == "Admin" || r.Name == "Audit Manager" || r.Name == "Supervisor").Select(r => r.Users.Select(u => u.UserId)).ToList();
+            foreach (var list in results)
+            {
+                var supervisors = context.Users.Where(u => list.Contains(u.Id)).ToList();
+                viewModel.Supervisors.AddRange(supervisors);
+            }
+
+            return View(viewModel);
         }
 
         //
@@ -154,15 +244,21 @@ namespace Dubbelvy.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    NameFirst = model.NameFirst,
+                    NameLast = model.NameLast,
+                    NameMiddle = model.NameMiddle,
+                    ServiceDateTime = model.ServiceDateTime,
+                    SupervisorId = model.SupervisorId,
+                    TerminationDateTime = model.TerminationDateTime
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    
+
+                    await SignInManager.UserManager.AddToRoleAsync(user.Id, model.Role);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -170,11 +266,21 @@ namespace Dubbelvy.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Users");
                 }
                 AddErrors(result);
             }
 
+            var context = new ApplicationDbContext();
+            model.Roles = context.Roles.Include(r => r.Users).ToList();
+
+            model.Supervisors = new List<ApplicationUser>();
+            var results = context.Roles.Where(r => r.Name == "Admin" || r.Name == "Audit Manager" || r.Name == "Supervisor").Select(r => r.Users.Select(u => u.UserId)).ToList();
+            foreach (var list in results)
+            {
+                var supervisors = context.Users.Where(u => list.Contains(u.Id)).ToList();
+                model.Supervisors.AddRange(supervisors);
+            }
             // If we got this far, something failed, redisplay form
             return View(model);
         }

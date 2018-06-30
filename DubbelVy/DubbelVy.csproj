@@ -213,6 +213,7 @@
     <Compile Include="Controllers\DisputesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Migrations\201806271843375_UpdatedDisputeModel.cs" />
     <Compile Include="Migrations\201806271843375_UpdatedDisputeModel.Designer.cs">
       <DependentUpon>201806271843375_UpdatedDisputeModel.cs</DependentUpon>
@@ -592,6 +593,8 @@
     <Content Include="Views\Disputes\Index.cshtml" />
     <Content Include="Views\Disputes\Create.cshtml" />
     <Content Include="Views\Disputes\Details.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

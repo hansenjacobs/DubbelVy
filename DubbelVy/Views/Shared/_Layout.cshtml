@@ -21,7 +21,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("My Audits", "MyAudits", "Audits")</li>
@@ -40,7 +39,8 @@
                         }
                         if (User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("User", "Index", "Manage")</li>
+                            <li>@Html.ActionLink("Templates", "Index", "AuditTemplates")</li>
+                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
                         }
                     }
                 </ul>
