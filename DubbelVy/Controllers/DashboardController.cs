@@ -72,13 +72,13 @@ namespace Dubbelvy.Controllers
             for (int i = 2; i >= 0; i--)
             {
                 var monthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(i * -1);
-                var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+                var nextMonthStart = monthStart.AddMonths(1);
                 kpi.DataLabels.Add(monthStart.ToString("MMM yyyy"));
 
-                var auditCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime <= monthEnd);
+                double auditCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime < nextMonthStart);
                 if (auditCount > 0)
                 {
-                    var autoFailCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime <= monthEnd && d.Score == 0);
+                    double autoFailCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime < nextMonthStart && d.Score == 0.00);
                     kpi.Data.Add(autoFailCount / auditCount);
                 }
                 else
@@ -124,13 +124,13 @@ namespace Dubbelvy.Controllers
             for (int i = 2; i >= 0; i--)
             {
                 var monthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(i * -1);
-                var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+                var nextMonthStart = monthStart.AddMonths(1);
                 kpi.DataLabels.Add(monthStart.ToString("MMM yyyy"));
 
-                var auditCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime <= monthEnd);
+                double auditCount = _context.Audits.Count(d => d.AuditDateTime >= monthStart && d.AuditDateTime < nextMonthStart);
                 if(auditCount > 0)
                 {
-                    var disputeCount = _context.Disputes.Count(d => d.CreateDateTime >= monthStart && d.CreateDateTime <= monthEnd);
+                    double disputeCount = _context.Disputes.Count(d => d.CreateDateTime >= monthStart && d.CreateDateTime < nextMonthStart);
                     kpi.Data.Add(disputeCount / auditCount);
                 }
                 else

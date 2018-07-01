@@ -74,21 +74,28 @@ namespace Dubbelvy.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public string NameFirst { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Middle Name")]
         public string NameMiddle { get; set; }
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Last Name")]
         public string NameLast { get; set; }
 
         [Required]
+        [Display(Name = "Supervisor")]
         public string SupervisorId { get; set; }
 
         public List<ApplicationUser> Supervisors { get; set; }
 
+        [Display(Name = "Service Date")]
         public System.DateTime ServiceDateTime { get; set; }
+
+        [Display(Name = "Termination Date")]
         public System.DateTime? TerminationDateTime { get; set; }
 
         [Required]
@@ -117,21 +124,28 @@ namespace Dubbelvy.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public string NameFirst { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Middle Name")]
         public string NameMiddle { get; set; }
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Last Name")]
         public string NameLast { get; set; }
 
         [Required]
+        [Display(Name = "Supervisor")]
         public string SupervisorId { get; set; }
 
         public List<ApplicationUser> Supervisors { get; set; }
 
+        [Display(Name = "Service Date")]
         public System.DateTime ServiceDateTime { get; set; }
+
+        [Display(Name = "Termination Date")]
         public System.DateTime? TerminationDateTime { get; set; }
 
         [Required]

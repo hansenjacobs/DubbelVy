@@ -28,6 +28,7 @@
                         {
                             <li>@Html.ActionLink("My Team's Audits", "TeamAudits", "Audits")</li>
                             <li>@Html.ActionLink("My Team's Disputes", "TeamDisputes", "Disputes")</li>
+                            <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                         }
                         if (User.IsInRole("Auditor") || User.IsInRole("Audit Manager") || User.IsInRole("Admin"))
                         {

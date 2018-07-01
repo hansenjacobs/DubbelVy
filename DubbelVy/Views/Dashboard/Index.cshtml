@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<IEnumerable<DashboardKPI>>
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "KPI Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
+<p style="font-style:italic">For the month of @DateTime.Now.ToString("MMMM yyyy")</p>
 <hr />
 
 @foreach(var row in Model)
