@@ -24,6 +24,7 @@ namespace Dubbelvy.Controllers
             var auditResponse = _context.AuditResponses
                 .Include(a => a.Audit.Auditee)
                 .Include(a => a.Audit.AuditTemplate)
+                .Include(a => a.Audit.Auditor)
                 .Include(a => a.Audit.Supervisor)
                 .Include(a => a.Element.Choices)
                 .Single(a => a.Id == id);

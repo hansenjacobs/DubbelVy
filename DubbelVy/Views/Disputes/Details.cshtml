@@ -54,7 +54,7 @@
             }
             else
             {
-                <dd>-</dd>
+                <dd></dd>
             }
             <dt>@Html.DisplayNameFor(m => m.DecisionId)</dt>
             @if (Model.Decision != null)
@@ -64,6 +64,15 @@
             else
             {
                 <dd style="font-style:italic">Pending</dd>
+            }
+            <dt>@Html.DisplayNameFor(m => m.DecisionDateTime)</dt>
+            @if (Model.DecisionDateTime.HasValue)
+            {
+                <dd>@Model.DecisionDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
+            }
+            else
+            {
+                <dd style="font-style:italic"></dd>
             }
         </dl>
     </div>
@@ -78,20 +87,9 @@
             }
             else
             {
-                <dd>
-                    @Html.ActionLink("Approve", "SupervisorApprove", new { id = Model.AuditId }) |
-                    @Html.ActionLink("Deny", "SupervisorDeny", new { id = Model.AuditId })
-                </dd>
+                <dd></dd>
             }
-            <dt>@Html.DisplayNameFor(m => m.DecisionDateTime)</dt>
-            @if (Model.DecisionDateTime.HasValue)
-            {
-                <dd>@Model.DecisionDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
-            }
-            else
-            {
-                <dd style="font-style:italic">Pending</dd>
-            }
+
         </dl>
     </div>
 </div>

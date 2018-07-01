@@ -55,7 +55,7 @@ namespace Dubbelvy.Controllers
                 _context.Disputes.Add(dispute);
                 _context.SaveChanges();
 
-                
+                NotifySupervisor(dispute.AuditId);
 
                 return RedirectToAction("Details", "Audits", new { id = dispute.AuditId });
             }
@@ -163,6 +163,7 @@ namespace Dubbelvy.Controllers
             var disputes = _context.Disputes
                 .Include(d => d.Audit.Auditee)
                 .Include(d => d.Audit.AuditTemplate)
+                .Include(d => d.Audit.Auditor)
                 .Include(d => d.Audit.Supervisor)
                 .Where(d => d.Audit.SupervisorId == userId)
                 .ToList();

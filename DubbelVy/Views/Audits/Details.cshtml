@@ -38,13 +38,13 @@
         <ul>
             @if ((User.IsInRole("Admin") || User.IsInRole("Audit Manager") || User.IsInRole("Auditor")) && Model.AuditeeId != User.Identity.GetUserId())
             {
-                <li>@Html.ActionLink("Edit Audit", "Edit", new { id = Model.Id })</li>
-                <li>@Html.ActionLink("Score & Send Audit", "ScoreSend", new { id = Model.Id })</li>
-                <li>@Html.ActionLink("Delete Audit", "Delete", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Edit Audit", "Edit", new { id = Model.Id }, null)</li>
+                <li>@Html.ActionLink("Score & Send Audit", "ScoreSend", new { id = Model.Id }, null)</li>
+                <li>@Html.ActionLink("Delete Audit", "Delete", new { id = Model.Id }, null)</li>
             }
             else if ((User.IsInRole("Auditee") || User.IsInRole("Supervisor") || Model.AuditeeId == User.Identity.GetUserId()) && Model.Dispute == null)
             {
-                <li>@Html.ActionLink("Submit Dispute", "Create", "Disputes", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Submit Dispute", "Create", "Disputes", new { id = Model.Id }, null)</li>
             }
         </ul>
         
