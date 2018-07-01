@@ -58,19 +58,19 @@
                     }
                     @if (template.DeployDateTime == null)
                     {
-                        @Html.ActionLink("Deploy", "Deploy", new { id = template.Id }, new { @style = "display: block" });
+                        @Html.ActionLink("Deploy", "Deploy", new { id = template.Id, urlRedirect = "~/AuditTemplates" }, new { @style = "display: block" });
                     }
                     else if (template.DeployDateTime != null && template.DepreciateDateTime == null && template.AuditsCompleted == 0)
                     {
-                        @Html.ActionLink("Recall", "Recall", new { id = template.Id }, new { @style = "display: block" });
+                        @Html.ActionLink("Recall", "Recall", new { id = template.Id, urlRedirect = "~/AuditTemplates" }, new { @style = "display: block" });
                     }
                     @if (template.DeployDateTime != null && template.DepreciateDateTime == null)
                     {
-                        @Html.ActionLink("Depreciate", "Depreciate", new { id = template.Id }, new { @style = "display: block" });
+                        @Html.ActionLink("Depreciate", "Depreciate", new { id = template.Id, urlRedirect = "~/AuditTemplates" }, new { @style = "display: block" });
                     }
                     else if (template.DepreciateDateTime != null)
                     {
-                        @Html.ActionLink("Re-instate", "Re-instate", new { id = template.Id }, new { @style = "display: block" });
+                        @Html.ActionLink("Re-instate", "Reinstate", new { id = template.Id, urlRedirect = "~/AuditTemplates" }, new { @style = "display: block" });
                     }
                     @if (template.AuditsCompleted == 0)
                     {

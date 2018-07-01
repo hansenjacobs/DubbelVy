@@ -23,7 +23,7 @@
         @foreach(var dispute in Model)
         {
             <tr>
-                <td>@dispute.CreateDateTime.ToString("MM/dd/yyyy")</td>
+                <td>@Html.ActionLink(dispute.CreateDateTime.ToString("MM/dd/yyyy"), "Details", new { id = dispute.AuditId }, null)</td>
                 <td>@dispute.Audit.Auditee.NameFLUser</td>
                 <td>@dispute.Audit.WorkDateTime.ToString("MM/dd/yyyy")</td>
                 <td>@dispute.Audit.WorkIdentifier</td>

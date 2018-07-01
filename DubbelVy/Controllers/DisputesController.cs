@@ -74,6 +74,8 @@ namespace Dubbelvy.Controllers
                 .Include(d => d.Audit.Auditee)
                 .Include(d => d.Audit.AuditTemplate)
                 .Include(d => d.Audit.Supervisor)
+                .Include(d => d.Decision)
+                .Include(d => d.Decider)
                 .Single(d => d.AuditId == id);
             var viewModel = new DisputeViewModel();
 
@@ -86,7 +88,7 @@ namespace Dubbelvy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Detials(DisputeViewModel model)
+        public ActionResult Details(DisputeViewModel model)
         {
             var userId = User.Identity.GetUserId();
             var user = _context.Users.Single(u => u.Id == userId);
@@ -100,12 +102,14 @@ namespace Dubbelvy.Controllers
                 {
                     var decision = _context.DisputeDecisions.Single(d => d.Id == dispute.DecisionId);
                     dispute.DecisionDateTime = submitDateTime;
+                    dispute.DeciderId = userId;
                     dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" +
                         "Updated decision to " + decision.Text + "\r\n\r\n" + dispute.Comments;
                 }
                 else
                 {
                     dispute.DecisionDateTime = null;
+                    dispute.DeciderId = userId;
                     dispute.Comments = $"{user.NameFLUser} {submitDateTime.ToString("MM/dd/yyyy hh:mm:ss tt")}\r\n" +
                         "Removed decision.  Dispute now pending deicision" + "\r\n\r\n" + dispute.Comments;
                 }

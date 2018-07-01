@@ -3,10 +3,11 @@
     ViewBag.Title = "Audit Template - " + Model.Id != null ? Model.Title + " V" + Model.Version : "New";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>@ViewBag.Title</h2>
+<p style="margin-bottom:25px"></p>
+<h2 style="display:inline">@ViewBag.Title</h2>
+@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @style = "display:inline; padding-left:15px" })
 <div id="audit-template" class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <dl class="dl-horizontal">
             <dt>@Html.DisplayNameFor(m => m.Id)</dt>
             <dd>@Model.Id</dd>
@@ -20,7 +21,7 @@
             <dd>@(Model.DepreciateDateTime != null ? Model.DepreciateDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt") : "")</dd>
         </dl>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <dl class="dl-horizontal">
             <dt>@Html.DisplayNameFor(m => m.CreateDateTime)</dt>
             <dd>@Model.CreateDateTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")</dd>
@@ -37,6 +38,35 @@
                 <dd>@Model.ModifiedBy.NameFLUser</dd>
             }
         </dl>
+    </div>
+    <div class="col-md-2">
+        <h4>Actions</h4>
+        <ul>
+            @if (Model.AuditsCompleted == 0)
+            {
+                <li>@Html.ActionLink("Edit Header", "Edit", new { id = Model.Id }, null)</li>
+            }
+            @if (Model.DeployDateTime == null)
+            {
+                <li>@Html.ActionLink("Deploy", "Deploy", new { id = Model.Id, urlRedirect = "~/AuditTemplates/Details/" + Model.Id }, null)</li>
+            }
+            else if (Model.DeployDateTime != null && Model.DepreciateDateTime == null && Model.AuditsCompleted == 0)
+            {
+                <li>@Html.ActionLink("Recall", "Recall", new { id = Model.Id, urlRedirect = "~/AuditTemplates/Details/" + Model.Id }, null)</li>
+            }
+            @if (Model.DeployDateTime != null && Model.DepreciateDateTime == null)
+            {
+                <li>@Html.ActionLink("Depreciate", "Depreciate", new { id = Model.Id, urlRedirect = "~/AuditTemplates/Details/" + Model.Id }, null)</li>
+            }
+            else if (Model.DepreciateDateTime != null)
+            {
+                <li>@Html.ActionLink("Re-instate", "Reinstate", new { id = Model.Id, urlRedirect = "~/AuditTemplates/Details/" + Model.Id }, null)</li>
+            }
+            @if (Model.AuditsCompleted == 0)
+            {
+                <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, null)</li>
+            }
+        </ul>
     </div>
 </div>
     <span>@Html.ActionLink("Add Section", "Add","AuditSections", new { id = Model.Id }, null)</span>

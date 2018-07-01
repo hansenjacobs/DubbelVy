@@ -103,14 +103,45 @@ namespace Dubbelvy.Controllers
                 _context.AuditTemplates.Remove(auditTemplate);
                 _context.SaveChanges();
 
-                ViewBag.Message = "Audit template deleted.";
+                TempData.Add("message", "Audit template deleted.");
             }
             else
             {
-                ViewBag.Message = "Unable to delete audit template.  Audit templates cannot be deleted once audits have been completed using the template.";
+                TempData.Add("message", "Unable to delete audit template.  Audit templates cannot be deleted once audits have been completed using the template.");
             }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Deploy (int id, string urlRedirect)
+        {
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == id);
+            var auditCount = _context.Audits.Count(a => a.AuditTemplateId == id);
+
+            if(auditCount == 0 && auditTemplate.DeployDateTime == null)
+            {
+                auditTemplate.DeployDateTime = DateTime.Now;
+                auditTemplate.ModifiedById = User.Identity.GetUserId();
+                auditTemplate.ModifiedDateTime = DateTime.Now;
+                _context.SaveChanges();
+            }
+
+            return Redirect(urlRedirect);
+        }
+
+        public ActionResult Depreciate(int id, string urlRedirect)
+        {
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == id);
+
+            if (auditTemplate.DeployDateTime != null && auditTemplate.DepreciateDateTime == null)
+            {
+                auditTemplate.DepreciateDateTime = DateTime.Now;
+                auditTemplate.ModifiedById = User.Identity.GetUserId();
+                auditTemplate.ModifiedDateTime = DateTime.Now;
+                _context.SaveChanges();
+            }
+
+            return Redirect(urlRedirect);
         }
 
         public ActionResult Details(int id)
@@ -155,6 +186,8 @@ namespace Dubbelvy.Controllers
                 }
             }
 
+            viewModel.AuditsCompleted = _context.Audits.Count(a => a.AuditTemplateId == auditTemplate.Id);
+
             return View(viewModel);
         }
 
@@ -195,6 +228,37 @@ namespace Dubbelvy.Controllers
                 return RedirectToAction("Details", new { id = auditTemplate.Id });
             }
             return View("Form", model);
+        }
+
+        public ActionResult Reinstate(int id, string urlRedirect)
+        {
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == id);
+
+            if (auditTemplate.DepreciateDateTime != null)
+            {
+                auditTemplate.DepreciateDateTime = null;
+                auditTemplate.ModifiedById = User.Identity.GetUserId();
+                auditTemplate.ModifiedDateTime = DateTime.Now;
+                _context.SaveChanges();
+            }
+
+            return Redirect(urlRedirect);
+        }
+
+        public ActionResult Recall(int id, string urlRedirect)
+        {
+            var auditTemplate = _context.AuditTemplates.Single(a => a.Id == id);
+            var auditCount = _context.Audits.Count(a => a.AuditTemplateId == id);
+
+            if (auditCount == 0 && auditTemplate.DepreciateDateTime == null)
+            {
+                auditTemplate.DeployDateTime = null;
+                auditTemplate.ModifiedById = User.Identity.GetUserId();
+                auditTemplate.ModifiedDateTime = DateTime.Now;
+                _context.SaveChanges();
+            }
+
+            return Redirect(urlRedirect);
         }
     }
 }
