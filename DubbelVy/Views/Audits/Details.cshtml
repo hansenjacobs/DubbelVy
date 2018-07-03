@@ -71,7 +71,10 @@
 <hr />
 <div class="row border" id="comment">
     <h3 style="display:inline">Comments</h3>
-    @Html.ActionLink("Edit", "EditComment", new { id = Model.Id })<br />
+    @if ((User.IsInRole("Admin") || User.IsInRole("Audit Manager") || User.IsInRole("Auditor")) && Model.AuditeeId != User.Identity.GetUserId())
+    {
+        @Html.ActionLink("Edit", "EditComment", new { id = Model.Id })<br />
+    }
     @Model.Comment
 </div>
 <hr />
@@ -85,10 +88,17 @@
                 @foreach (var auditElement in auditSection.Elements.OrderBy(e => e.Order).ToList())
                 {
                     var response = Model.AuditResponses.ToList().Find(r => r.ElementId == auditElement.Id);
-                    <tr>
+                <tr>
+                    @if ((User.IsInRole("Admin") || User.IsInRole("Audit Manager") || User.IsInRole("Auditor")) && Model.AuditeeId != User.Identity.GetUserId())
+                    {
                         <td class="col-md-3"><b>@Html.ActionLink(response.Choice.Text, "Edit", "AuditResponses", new { id = response.Id }, null)</b></td>
-                        <td class="col-md-9"><b>@auditElement.Topic:</b> @auditElement.Text</td>
-                    </tr>
+                    }
+                    else
+                    {
+                        <td class="col-md-3"><b>@response.Choice.Text</b></td>
+                    }
+                    <td class="col-md-9"><b>@auditElement.Topic:</b> @auditElement.Text</td>
+                </tr>
                 }
             </table>
         </div>
